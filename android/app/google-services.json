@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "596152602563",
+    "project_id": "shopflutter-d3308",
+    "storage_bucket": "shopflutter-d3308.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596152602563:android:95fb9ef16adb35c7c77776",
+        "android_client_info": {
+          "package_name": "com.example.shopflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2U0pEjAfNDruRAOyJmaXJ6v3exDBL8Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
