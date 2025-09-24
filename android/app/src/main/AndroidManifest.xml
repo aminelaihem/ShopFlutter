@@ -1,10 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.shopflutter">
+
+    <!-- réseau pour Dio / FakeStore -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:label="shopflutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.shopflutter.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
