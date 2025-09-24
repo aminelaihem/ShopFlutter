@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../../app/di/auth_providers.dart';
 import '../../../../app/router/routes.dart';
+import '../../../cart/presentation/widgets/cart_badge_button.dart';
 import '../viewmodels/catalog_vm.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_field.dart';
@@ -30,6 +32,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
       appBar: AppBar(
         title: const Text('ShopFlutter'),
         actions: [
+          const CartBadgeButton(), // badge panier
           IconButton(
             tooltip: 'Déconnexion',
             onPressed: () => ref.read(signOutUsecaseProvider).call(),
@@ -60,10 +63,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                   Center(child: Text(state.error!)),
                   const SizedBox(height: 8),
                   Center(
-                    child: FilledButton(
-                      onPressed: vm.load,
-                      child: const Text('Réessayer'),
-                    ),
+                    child: FilledButton(onPressed: vm.load, child: const Text('Réessayer')),
                   ),
                 ],
               );
@@ -86,7 +86,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                         final p = state.visible[index];
                         return ProductCard(
                           product: p,
-                          onTap: () => context.pushNamed('product', pathParameters: {'id': '${p.id}'}),
+                          onTap: () => context.pushNamed(
+                            'product',
+                            pathParameters: {'id': '${p.id}'},
+                          ),
                         );
                       },
                       childCount: state.visible.length,

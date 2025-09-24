@@ -6,4 +6,6 @@ class AppRoutes {
   static const register = '/register';
   static const catalog = '/catalog';
   static String product(int id) => '/product/$id';
+  static const cart = '/cart';
+
 }

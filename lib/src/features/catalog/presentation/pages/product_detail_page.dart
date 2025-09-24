@@ -2,8 +2,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../core/formatters/money.dart';
 import '../viewmodels/product_vm.dart';
+import '../../../cart/presentation/viewmodels/cart_vm.dart';
 
 class ProductDetailPage extends ConsumerWidget {
   const ProductDetailPage({super.key, required this.id});
@@ -53,17 +55,22 @@ class ProductDetailPage extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(p.title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
-              Text(formatPrice(p.price), style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.primary)),
+              Text(
+                formatPrice(p.price),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               const SizedBox(height: 12),
               Text(p.description),
               const SizedBox(height: 24),
               SizedBox(
                 height: 50,
                 child: FilledButton.icon(
-                  onPressed: () {
-                    // On branchera le panier ici dans la feature "cart".
+                  onPressed: () async {
+                    await ref.read(cartVmProvider.notifier).addFromProductId(id);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('À venir : ajout au panier')),
+                      const SnackBar(content: Text('Ajouté au panier')),
                     );
                   },
                   icon: const Icon(Icons.add_shopping_cart),
