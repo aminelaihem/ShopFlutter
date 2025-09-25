@@ -19,6 +19,7 @@ Future<void> bootstrap(Widget app) async {
     await Hive.initFlutter(); // cache
     await Hive.openBox('cache');
     await Hive.openBox('cart');
+    await Hive.openBox('orders');
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

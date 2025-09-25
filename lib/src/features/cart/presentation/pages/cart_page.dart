@@ -1,11 +1,13 @@
 // lib/src/features/cart/presentation/pages/cart_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../core/formatters/money.dart';
-import '../../domain/entities/cart_item.dart';
 import '../../presentation/viewmodels/cart_vm.dart';
 import '../../presentation/widgets/cart_item_tile.dart';
 import '../../../../app/di/cart_providers.dart';
+import '../../../../app/router/routes.dart';
 
 class CartPage extends ConsumerWidget {
   const CartPage({super.key});
@@ -13,7 +15,7 @@ class CartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final itemsAsync = ref.watch(cartVmProvider);
-    final totalAsync = ref.watch(cartTotalProvider);
+    final totalAsync = ref.watch(cartTotalProvider); // StreamProvider -> total en live
 
     return Scaffold(
       appBar: AppBar(title: const Text('Panier')),
@@ -47,21 +49,24 @@ class CartPage extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: totalAsync.when(
-                        data: (t) => Text('Total: ${formatPrice(t)}', style: Theme.of(context).textTheme.titleMedium),
+                        data: (t) => Text(
+                          'Total: ${formatPrice(t)}',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                         loading: () => const Text('Calcul...'),
                         error: (e, _) => Text('Erreur total: $e'),
                       ),
                     ),
+                    const SizedBox(width: 12),
+                    OutlinedButton(
+                      onPressed: () => ref.read(cartVmProvider.notifier).clear(),
+                      child: const Text('Vider'),
+                    ),
+                    const SizedBox(width: 12),
                     SizedBox(
                       height: 48,
                       child: FilledButton(
-                        onPressed: () {
-                          // mock checkout
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Checkout mock: commande créée')),
-                          );
-                          ref.read(cartVmProvider.notifier).clear();
-                        },
+                        onPressed: () => context.push(AppRoutes.checkout),
                         child: const Text('Checkout'),
                       ),
                     ),

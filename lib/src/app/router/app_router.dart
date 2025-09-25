@@ -14,6 +14,8 @@ import '../../features/catalog/presentation/pages/catalog_page.dart';
 import '../../features/catalog/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../app_shell/home_page.dart'; // optionnel
+import '../../features/orders/presentation/pages/checkout_page.dart';
+import '../../features/orders/presentation/pages/orders_page.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<dynamic> _sub;
@@ -62,6 +64,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       // cart
       GoRoute(path: AppRoutes.cart, name: 'cart', builder: (_, __) => const CartPage()),
+
+      GoRoute(path: AppRoutes.checkout, name: 'checkout', builder: (_, __) => const CheckoutPage()),
+      GoRoute(path: AppRoutes.orders, name: 'orders', builder: (_, __) => const OrdersPage()),
 
       // optionnel
       GoRoute(path: AppRoutes.home, name: 'home', builder: (_, __) => const HomePage()),

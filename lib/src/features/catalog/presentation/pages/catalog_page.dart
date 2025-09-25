@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/di/auth_providers.dart';
-import '../../../../app/router/routes.dart';
 import '../../../cart/presentation/widgets/cart_badge_button.dart';
 import '../viewmodels/catalog_vm.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_field.dart';
+
+import '../../../../app_shell/main_drawer.dart';
+
 
 class CatalogPage extends ConsumerStatefulWidget {
   const CatalogPage({super.key});
@@ -47,6 +49,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
           ),
         ),
       ),
+      drawer: const MainDrawer(),
       body: RefreshIndicator(
         onRefresh: vm.refresh,
         child: Builder(
