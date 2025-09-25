@@ -13,9 +13,9 @@ import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/catalog/presentation/pages/catalog_page.dart';
 import '../../features/catalog/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
-import '../../app_shell/home_page.dart'; // optionnel
 import '../../features/orders/presentation/pages/checkout_page.dart';
 import '../../features/orders/presentation/pages/orders_page.dart';
+import '../../app_shell/home_page.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<dynamic> _sub;
@@ -33,7 +33,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   final sessionStream = ref.watch(sessionProvider.stream);
 
   return GoRouter(
-    initialLocation: AppRoutes.catalog,
+    // Home = écran par défaut
+    initialLocation: AppRoutes.home,
     refreshListenable: GoRouterRefreshStream(sessionStream),
     redirect: (context, state) {
       final session = ref.read(sessionProvider);
@@ -42,13 +43,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final isAuthRoute = currentPath == AppRoutes.login || currentPath == AppRoutes.register;
 
       if (!isLoggedIn && !isAuthRoute) return AppRoutes.login;
-      if (isLoggedIn && isAuthRoute) return AppRoutes.catalog;
+      if (isLoggedIn && isAuthRoute) return AppRoutes.home; // après login, va sur Home
       return null;
     },
     routes: [
-      // auth
+      // routes publiques
       GoRoute(path: AppRoutes.login, name: 'login', builder: (_, __) => const LoginPage()),
       GoRoute(path: AppRoutes.register, name: 'register', builder: (_, __) => const RegisterPage()),
+
+      // home
+      GoRoute(path: AppRoutes.home, name: 'home', builder: (_, __) => const HomePage()),
 
       // catalog
       GoRoute(path: AppRoutes.catalog, name: 'catalog', builder: (_, __) => const CatalogPage()),
@@ -62,14 +66,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
 
-      // cart
+      // cart / checkout / orders
       GoRoute(path: AppRoutes.cart, name: 'cart', builder: (_, __) => const CartPage()),
-
       GoRoute(path: AppRoutes.checkout, name: 'checkout', builder: (_, __) => const CheckoutPage()),
       GoRoute(path: AppRoutes.orders, name: 'orders', builder: (_, __) => const OrdersPage()),
-
-      // optionnel
-      GoRoute(path: AppRoutes.home, name: 'home', builder: (_, __) => const HomePage()),
     ],
   );
 });

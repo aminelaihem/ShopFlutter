@@ -33,6 +33,17 @@ class MainDrawer extends ConsumerWidget {
               ),
             ),
 
+            // Accueil
+            ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.of(context).pop();
+                context.go(AppRoutes.home);
+              },
+            ),
+
+            // Catalogue
             ListTile(
               leading: const Icon(Icons.storefront_outlined),
               title: const Text('Catalogue'),
@@ -42,6 +53,7 @@ class MainDrawer extends ConsumerWidget {
               },
             ),
 
+            // Panier (avec badge)
             ListTile(
               leading: const Icon(Icons.shopping_bag_outlined),
               title: const Text('Panier'),
@@ -61,6 +73,7 @@ class MainDrawer extends ConsumerWidget {
               },
             ),
 
+            // Commandes
             ListTile(
               leading: const Icon(Icons.receipt_long_outlined),
               title: const Text('Mes commandes'),
@@ -72,6 +85,7 @@ class MainDrawer extends ConsumerWidget {
 
             const Divider(),
 
+            // Déconnexion
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Déconnexion'),
