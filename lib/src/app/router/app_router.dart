@@ -10,6 +10,7 @@ import '../di/auth_providers.dart';
 // pages
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
+import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/catalog/presentation/pages/catalog_page.dart';
 import '../../features/catalog/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
@@ -50,6 +51,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // routes publiques
       GoRoute(path: AppRoutes.login, name: 'login', builder: (_, __) => const LoginPage()),
       GoRoute(path: AppRoutes.register, name: 'register', builder: (_, __) => const RegisterPage()),
+      GoRoute(
+        path: AppRoutes.profile,
+        name: 'profile',
+        builder: (context, state) => const ProfilePage(),
+      ),
 
       // home
       GoRoute(path: AppRoutes.home, name: 'home', builder: (_, __) => const HomePage()),

@@ -31,6 +31,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Configuration Stripe
+        manifestPlaceholders["stripePublishableKey"] = "pk_test_51SBEbIJDdq5uniaJNYZiitIhr4kE3XnkjwGWzzR72EmTRrOVnZokswGwTcJHLDmnCmpb5c5A4jfbKk6T0dtdjPgT00yMYoeahP"
     }
 
     buildTypes {
@@ -44,4 +47,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("com.stripe:stripe-android:20.37.0")
 }

@@ -4,6 +4,7 @@ class AppRoutes {
   static const home = '/home';
   static const login = '/login';
   static const register = '/register';
+  static const String profile = '/profile';
   static const catalog = '/catalog';
   static String product(int id) => '/product/$id';
   static const cart = '/cart';

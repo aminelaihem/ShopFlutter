@@ -51,3 +51,8 @@ final fetchProductProvider = Provider<FetchProduct>(
 final fetchCategoriesProvider = Provider<FetchCategories>(
       (ref) => FetchCategories(ref.watch(catalogRepositoryProvider)),
 );
+
+final catalogProvider = FutureProvider((ref) async {
+  final fetchProducts = ref.watch(fetchProductsProvider);
+  return await fetchProducts();
+});
