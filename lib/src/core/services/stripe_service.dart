@@ -2,11 +2,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/foundation.dart';
 import '../config/stripe_config.dart';
+import '../network/dio_config.dart';
 
 class StripeService {
   static const String _baseUrl = 'https://api.stripe.com/v1';
   
-  static final Dio _dio = Dio();
+  static final Dio _dio = DioConfig.createDio(
+    baseUrl: _baseUrl,
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 60),
+    sendTimeout: const Duration(seconds: 30),
+  );
   
   static Future<void> initialize() async {
     try {

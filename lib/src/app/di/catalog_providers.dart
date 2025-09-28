@@ -1,8 +1,8 @@
 // lib/src/app/di/catalog_providers.dart
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import '../../core/network/dio_config.dart';
 import '../../features/catalog/data/datasources/catalog_remote_ds.dart';
 import '../../features/catalog/data/repositories_impl/catalog_repository_impl.dart';
 import '../../features/catalog/domain/repositories/catalog_repository.dart';
@@ -11,20 +11,9 @@ import '../../features/catalog/domain/usecases/fetch_product.dart';
 import '../../features/catalog/domain/usecases/fetch_products.dart';
 
 final _dioProvider = Provider<Dio>((ref) {
-  final dio = Dio(BaseOptions(
+  return DioConfig.createDio(
     baseUrl: 'https://fakestoreapi.com',
-    connectTimeout: const Duration(seconds: 10),
-    receiveTimeout: const Duration(seconds: 20),
-  ));
-  if (kDebugMode) {
-    dio.interceptors.add(InterceptorsWrapper(
-      onError: (e, h) {
-        debugPrint('DioError: ${e.message}');
-        h.next(e);
-      },
-    ));
-  }
-  return dio;
+  );
 });
 
 final _cacheBoxProvider = Provider<Box>((ref) => Hive.box('cache'));
