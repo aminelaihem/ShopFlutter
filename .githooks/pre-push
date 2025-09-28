@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Hook pre-push pour validation complète avant push
+# Installation: cp .githooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+
+set -e
+
+echo "🚀 Validation pre-push..."
+
+# Récupérer la branche actuelle
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+echo "📍 Branche: $current_branch"
+
+# Vérifier que Flutter est installé
+if ! command -v flutter &> /dev/null; then
+    echo "❌ Flutter n'est pas installé"
+    exit 1
+fi
+
+# Nettoyage et dépendances
+echo "🧹 Nettoyage et récupération des dépendances..."
+flutter clean
+flutter pub get
+
+# Formatage
+echo "📝 Vérification du formatage..."
+if ! flutter format --set-exit-if-changed; then
+    echo "❌ Code mal formaté. Exécutez: flutter format ."
+    exit 1
+fi
+
+# Analyse statique
+echo "🔍 Analyse statique..."
+if ! flutter analyze; then
+    echo "❌ Analyse statique échouée"
+    exit 1
+fi
+
+# Tests complets
+echo "🧪 Exécution des tests..."
+if ! flutter test --coverage; then
+    echo "❌ Tests échoués"
+    exit 1
+fi
+
+# Vérification de la couverture
+echo "📊 Vérification de la couverture..."
+if command -v lcov &> /dev/null; then
+    coverage=$(lcov --summary coverage/lcov.info | grep -o '[0-9]*\.[0-9]*%' | head -1 | sed 's/%//')
+    if (( $(echo "$coverage < 50" | bc -l) )); then
+        echo "❌ Couverture insuffisante: ${coverage}% (< 50%)"
+        exit 1
+    fi
+    echo "✅ Couverture: ${coverage}%"
+else
+    echo "⚠️ lcov non disponible, vérification de couverture ignorée"
+fi
+
+# Build de test pour les branches importantes
+if [[ "$current_branch" == "main" || "$current_branch" == "develop" ]]; then
+    echo "🏗️ Test de build web..."
+    if ! flutter build web --release; then
+        echo "❌ Build web échoué"
+        exit 1
+    fi
+    echo "✅ Build web réussi"
+fi
+
+echo "✅ Validation pre-push réussie !"
+echo "🚀 Push autorisé"
+exit 0

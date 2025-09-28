@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Hook pre-commit pour valider le code avant chaque commit
+# Installation: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -e
+
+echo "🔍 Validation pre-commit..."
+
+# Vérifier que Flutter est installé
+if ! command -v flutter &> /dev/null; then
+    echo "❌ Flutter n'est pas installé"
+    exit 1
+fi
+
+# Vérifier le formatage
+echo "📝 Vérification du formatage..."
+if ! flutter format --set-exit-if-changed; then
+    echo "❌ Code mal formaté. Exécutez: flutter format ."
+    exit 1
+fi
+
+# Analyse statique
+echo "🔍 Analyse statique..."
+if ! flutter analyze; then
+    echo "❌ Analyse statique échouée"
+    exit 1
+fi
+
+# Tests rapides (smoke tests)
+echo "🧪 Tests rapides..."
+if ! flutter test test/smoke_test.dart; then
+    echo "❌ Tests de smoke échoués"
+    exit 1
+fi
+
+echo "✅ Validation pre-commit réussie !"
+exit 0

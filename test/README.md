@@ -1,182 +1,296 @@
 # 🧪 Guide des Tests - ShopFlutter
 
-## 📋 Vue d'ensemble
+Ce guide décrit la stratégie de test complète pour l'application ShopFlutter.
 
-Cette suite de tests couvre l'application ShopFlutter avec **plus de 15 tests** répartis en plusieurs catégories pour garantir une couverture ≥ 50%.
+## 📋 Types de Tests
 
-## 🏗️ Structure des tests
+### 1. Tests Unitaires (`unit/`)
+Tests des fonctions et classes individuelles sans dépendances externes.
 
-```
-test/
-├── unit/                          # Tests unitaires
-│   ├── usecases/                  # Tests des use cases
-│   │   ├── auth/                  # Authentification
-│   │   │   ├── sign_in_test.dart
-│   │   │   └── register_test.dart
-│   │   └── catalog/               # Catalogue
-│   │       ├── fetch_products_test.dart
-│   │       └── fetch_product_test.dart
-│   └── viewmodels/                # Tests des viewmodels
-│       ├── auth/
-│       │   └── login_vm_test.dart
-│       └── catalog/
-│           └── catalog_vm_test.dart
-├── widget/                        # Tests de widgets
-│   ├── auth/
-│   │   └── login_page_test.dart
-│   └── catalog/
-│       └── product_card_test.dart
-├── integration/                   # Tests d'intégration
-│   └── auth_flow_test.dart
-├── coverage_test.dart             # Tests de couverture
-├── test_runner.dart               # Lanceur de tous les tests
-└── README.md                      # Ce fichier
-```
-
-## 🎯 Types de tests
-
-### **1. Tests Unitaires (10+ tests)**
-- **Use Cases** : Logique métier pure
-- **ViewModels** : Gestion d'état et logique UI
-- **Mocks** : Simulation des dépendances
-
-### **2. Tests Widget (5+ tests)**
-- **Pages** : Interface utilisateur complète
-- **Composants** : Widgets réutilisables
-- **Interactions** : Tap, saisie, navigation
-
-### **3. Tests d'Intégration (3+ tests)**
-- **Flux complets** : Parcours utilisateur
-- **Navigation** : Entre les pages
-- **État global** : Gestion des sessions
-
-## 🚀 Exécution des tests
-
-### **Tous les tests**
 ```bash
-flutter test
-```
-
-### **Tests avec couverture**
-```bash
-flutter test --coverage
-```
-
-### **Tests par catégorie**
-```bash
-# Tests unitaires
+# Exécuter tous les tests unitaires
 flutter test test/unit/
 
-# Tests widget
+# Exécuter un test spécifique
+flutter test test/unit/usecases/auth_usecase_test.dart
+```
+
+### 2. Tests de Widgets (`widget/`)
+Tests des composants UI individuels.
+
+```bash
+# Exécuter tous les tests de widgets
 flutter test test/widget/
 
-# Tests d'intégration
-flutter test test/integration/
+# Exécuter avec couverture
+flutter test test/widget/ --coverage
 ```
 
-### **Scripts automatisés**
-```bash
-# Linux/Mac
-./scripts/test.sh
+### 3. Tests d'Intégration (`integration_test/`)
+Tests des flux complets de l'application.
 
+```bash
+# Exécuter les tests d'intégration
+flutter test integration_test/
+```
+
+### 4. Tests de Performance
+Tests de performance et de charge.
+
+```bash
+# Tests de performance
+flutter test test/performance_test.dart
+flutter test test/load_test.dart
+```
+
+### 5. Tests de Sécurité
+Tests de validation et de sécurité.
+
+```bash
+# Tests de sécurité
+flutter test test/security_test.dart
+```
+
+### 6. Tests d'Accessibilité
+Tests de conformité aux standards d'accessibilité.
+
+```bash
+# Tests d'accessibilité
+flutter test test/accessibility_test.dart
+```
+
+### 7. Tests Golden Files
+Tests de régression visuelle avec captures d'écran.
+
+```bash
+# Générer les golden files
+flutter test test/golden_test.dart --update-goldens
+
+# Vérifier les golden files
+flutter test test/golden_test.dart
+```
+
+### 8. Tests Smoke
+Tests de base pour vérifier que l'application fonctionne.
+
+```bash
+# Tests smoke (rapides)
+flutter test test/smoke_test.dart
+```
+
+### 9. Tests End-to-End (E2E)
+Tests de parcours utilisateur complets.
+
+```bash
+# Tests E2E
+flutter test test/e2e_test.dart
+```
+
+## 🎯 Stratégie de Test
+
+### Pyramide des Tests
+```
+        /\
+       /  \
+      / E2E \
+     /______\
+    /        \
+   /Integration\
+  /____________\
+ /              \
+/   Unit Tests   \
+/________________\
+```
+
+- **70%** Tests unitaires (rapides, fiables)
+- **20%** Tests d'intégration (fonctionnalités)
+- **10%** Tests E2E (parcours utilisateur)
+
+### Couverture de Code
+- **Objectif minimum:** 50%
+- **Objectif recommandé:** 80%
+- **Objectif idéal:** 90%+
+
+## 🚀 Commandes Utiles
+
+### Exécution des Tests
+
+```bash
+# Tous les tests
+flutter test
+
+# Tests avec couverture
+flutter test --coverage
+
+# Tests spécifiques
+flutter test test/unit/
+flutter test test/widget/
+flutter test test/integration_test.dart
+
+# Tests en mode watch (redémarre à chaque modification)
+flutter test --watch
+```
+
+### Vérification de la Couverture
+
+```bash
 # Windows
-scripts\test.bat
+scripts\check-coverage.bat --min-coverage=50
+
+# Linux/macOS
+./scripts/check-coverage.sh --min-coverage=50
 ```
 
-## 📊 Couverture de code
+### Golden Files
 
-### **Objectif** : ≥ 50% de couverture
-
-### **Zones couvertes** :
-- ✅ **Use Cases** : 100% (SignIn, Register, FetchProducts, etc.)
-- ✅ **ViewModels** : 90% (LoginVm, CatalogVm, etc.)
-- ✅ **Widgets critiques** : 80% (LoginPage, ProductCard, etc.)
-- ✅ **Flux d'authentification** : 100%
-
-### **Métriques** :
-- **Tests unitaires** : 10+ tests
-- **Tests widget** : 5+ tests  
-- **Tests d'intégration** : 3+ tests
-- **Total** : 18+ tests
-
-## 🔧 Configuration
-
-### **Dépendances de test** :
-```yaml
-dev_dependencies:
-  flutter_test: sdk: flutter
-  mockito: ^5.4.4
-  build_runner: ^2.4.7
-  integration_test: sdk: flutter
-```
-
-### **Génération des mocks** :
 ```bash
-flutter packages pub run build_runner build --delete-conflicting-outputs
+# Mettre à jour les golden files
+flutter test --update-goldens
+
+# Vérifier les golden files
+flutter test test/golden_test.dart
 ```
 
-## 🎨 Bonnes pratiques
+## 📊 Rapports de Test
 
-### **1. Structure AAA** :
-- **Arrange** : Préparer les données
-- **Act** : Exécuter l'action
-- **Assert** : Vérifier le résultat
+### Couverture HTML
+```bash
+# Générer le rapport HTML
+genhtml coverage/lcov.info -o coverage/html
 
-### **2. Noms descriptifs** :
+# Ouvrir le rapport
+open coverage/html/index.html  # macOS
+start coverage/html/index.html # Windows
+```
+
+### Rapports CI/CD
+Les rapports sont automatiquement générés dans GitHub Actions :
+- Couverture de code
+- Résultats des tests
+- Performance
+- Golden files
+
+## 🛠️ Configuration des Tests
+
+### Fichiers de Configuration
+- `pubspec.yaml` - Dépendances de test
+- `test/test_runner.dart` - Runner personnalisé
+- `coverage/lcov.info` - Rapport de couverture
+
+### Mocks et Stubs
 ```dart
-test('devrait retourner un utilisateur quand la connexion réussit', () async {
-  // Test implementation
+// Exemple de mock avec Mockito
+@GenerateMocks([AuthRepository])
+void main() {
+  late MockAuthRepository mockAuthRepository;
+  
+  setUp(() {
+    mockAuthRepository = MockAuthRepository();
+  });
+  
+  test('should authenticate user', () async {
+    // Arrange
+    when(mockAuthRepository.signIn(any, any))
+        .thenAnswer((_) async => Right(user));
+    
+    // Act & Assert
+    // ...
+  });
+}
+```
+
+## 🔧 Debugging des Tests
+
+### Logs de Debug
+```dart
+test('my test', () {
+  debugPrint('Debug message');
+  print('Console message');
+  // ...
 });
 ```
 
-### **3. Mocks appropriés** :
-```dart
-@GenerateMocks([AuthRepository])
-class MockAuthRepository extends Mock implements AuthRepository {}
+### Tests avec Breakpoints
+```bash
+# Exécuter en mode debug
+flutter test --debug test/my_test.dart
 ```
 
-### **4. Tests isolés** :
-- Chaque test est indépendant
-- `setUp()` pour l'initialisation
+### Tests Flaky
+Pour les tests instables :
+```bash
+# Exécuter plusieurs fois
+flutter test --repeat=10 test/flaky_test.dart
+```
+
+## 📝 Bonnes Pratiques
+
+### 1. Structure des Tests
+```dart
+group('FeatureName', () {
+  setUp(() {
+    // Configuration commune
+  });
+  
+  tearDown(() {
+    // Nettoyage
+  });
+  
+  test('should do something when condition', () {
+    // Arrange
+    // Act
+    // Assert
+  });
+});
+```
+
+### 2. Nommage des Tests
+- Utiliser des descriptions claires
+- Format: "should [expected behavior] when [condition]"
+- Exemple: `should return user when credentials are valid`
+
+### 3. Tests Indépendants
+- Chaque test doit être indépendant
 - Pas de dépendances entre tests
+- Utiliser `setUp()` et `tearDown()`
 
-## 🚨 CI/CD
+### 4. Mocks et Stubs
+- Mocker les dépendances externes
+- Utiliser Mockito pour les mocks
+- Vérifier les interactions importantes
 
-### **GitHub Actions** :
-- Exécution automatique sur push/PR
-- Vérification de couverture ≥ 50%
-- Génération de rapports HTML
-- Upload vers Codecov
+### 5. Tests de Performance
+- Mesurer les temps critiques
+- Définir des seuils acceptables
+- Tester sur différentes configurations
 
-### **Seuils de qualité** :
-- ✅ Couverture ≥ 50%
-- ✅ Tous les tests passent
-- ✅ Aucun test en échec
-- ✅ Mocks générés correctement
+## 🐛 Dépannage
 
-## 📈 Améliorations futures
+### Tests qui Échouent
+1. Vérifier les logs d'erreur
+2. Exécuter en mode debug
+3. Vérifier les mocks et stubs
+4. Valider les données de test
 
-### **Tests de performance** :
-- Temps de réponse des API
-- Mémoire utilisée
-- Taille des bundles
+### Couverture Insuffisante
+1. Identifier les fichiers non couverts
+2. Ajouter des tests unitaires
+3. Exclure les fichiers générés
+4. Vérifier la configuration
 
-### **Tests E2E** :
-- Parcours utilisateur complets
-- Tests sur vrais appareils
-- Scénarios complexes
+### Tests Lents
+1. Identifier les tests lents
+2. Optimiser les mocks
+3. Réduire les `pumpAndSettle()`
+4. Paralléliser si possible
 
-### **Tests de charge** :
-- Connexions simultanées
-- Gestion des erreurs réseau
-- Performance sous stress
+## 📚 Ressources
 
-## 🎉 Résultat
+- [Testing Flutter apps](https://docs.flutter.dev/testing)
+- [Mockito](https://pub.dev/packages/mockito)
+- [Integration testing](https://docs.flutter.dev/testing/integration-tests)
+- [Golden file testing](https://github.com/flutter/flutter/wiki/Writing-a-golden-file-test-for-package:flutter)
 
-Cette suite de tests garantit :
-- **Qualité** : Code testé et fiable
-- **Maintenabilité** : Refactoring sécurisé
-- **Documentation** : Tests comme spécifications
-- **Confiance** : Déploiement sans crainte
+---
 
-**Total : 18+ tests avec couverture ≥ 50%** ✅
+**Tests bien écrits = Code de qualité ! 🚀**

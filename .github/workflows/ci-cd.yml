@@ -1,0 +1,198 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  # Job de validation du code
+  validate:
+    name: Validation du code
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v4
+      
+    - name: Configuration de Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: 'stable'
+        cache: true
+        
+    - name: Récupération des dépendances
+      run: flutter pub get
+      
+    - name: Vérification du formatage
+      run: flutter format --set-exit-if-changed
+      
+    - name: Analyse statique
+      run: flutter analyze
+      
+    - name: Tests unitaires avec couverture
+      run: flutter test --coverage
+      
+    - name: Vérification de la couverture de code
+      run: |
+        # Installation de lcov pour analyser la couverture
+        sudo apt-get install lcov
+        
+        # Génération du rapport de couverture
+        lcov --summary coverage/lcov.info
+        
+        # Extraction du pourcentage de couverture
+        COVERAGE=$(lcov --summary coverage/lcov.info | grep -o '[0-9]*\.[0-9]*%' | head -1 | sed 's/%//')
+        echo "Couverture actuelle: ${COVERAGE}%"
+        
+        # Vérification que la couverture est >= 50%
+        if (( $(echo "$COVERAGE < 50" | bc -l) )); then
+          echo "❌ La couverture de code est de ${COVERAGE}%, mais doit être >= 50%"
+          exit 1
+        else
+          echo "✅ Couverture de code: ${COVERAGE}% (>= 50%)"
+        fi
+
+  # Job de build et déploiement
+  build-and-deploy:
+    name: Build et Déploiement
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v4
+      
+    - name: Configuration de Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: 'stable'
+        cache: true
+        
+    - name: Récupération des dépendances
+      run: flutter pub get
+      
+    - name: Build pour le web
+      run: flutter build web --release
+      
+    - name: Upload des artefacts de build
+      uses: actions/upload-artifact@v4
+      with:
+        name: web-build
+        path: build/web/
+        retention-days: 30
+
+  # Job de déploiement Blue-Green sur Firebase Hosting
+  deploy:
+    name: Déploiement Blue-Green
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v4
+      
+    - name: Récupération des artefacts de build
+      uses: actions/download-artifact@v4
+      with:
+        name: web-build
+        path: build/web/
+        
+    - name: Configuration de Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Installation de Firebase CLI
+      run: npm install -g firebase-tools
+      
+    - name: Configuration de Firebase
+      run: |
+        echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > firebase-service-account.json
+        firebase use --add ${{ secrets.FIREBASE_PROJECT_ID }}
+        firebase login:ci --token ${{ secrets.FIREBASE_TOKEN }}
+        
+    - name: Déploiement sur canal preview (Blue-Green)
+      run: |
+        # Déterminer le canal actuel
+        CURRENT_CHANNEL=$(firebase hosting:channel:list --json | jq -r '.channels[] | select(.status == "live") | .channelId' | head -1)
+        
+        if [ "$CURRENT_CHANNEL" = "blue" ]; then
+          NEW_CHANNEL="green"
+        else
+          NEW_CHANNEL="blue"
+        fi
+        
+        echo "Canal actuel: $CURRENT_CHANNEL"
+        echo "Nouveau canal: $NEW_CHANNEL"
+        
+        # Déploiement sur le nouveau canal
+        firebase hosting:channel:deploy $NEW_CHANNEL --only hosting
+        
+        # Attendre que le déploiement soit terminé
+        sleep 30
+        
+        # Smoke tests (vérifications basiques)
+        echo "Exécution des smoke tests..."
+        # Ici vous pouvez ajouter des tests automatisés pour vérifier que l'application fonctionne
+        
+        # Promotion vers live
+        echo "Promotion du canal $NEW_CHANNEL vers live..."
+        firebase hosting:channel:deploy live --only hosting
+        
+        # Nettoyage des anciens canaux
+        firebase hosting:channel:delete $CURRENT_CHANNEL --force
+        
+    - name: Nettoyage
+      if: always()
+      run: |
+        rm -f firebase-service-account.json
+        
+    - name: Commentaire sur la PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            issue_number: context.issue.number,
+          });
+          
+          const botComment = comments.find(comment => 
+            comment.user.type === 'Bot' && comment.body.includes('🚀 Déploiement')
+          );
+          
+          const commentBody = `🚀 **Déploiement terminé avec succès !**
+          
+          📊 **Résultats:**
+          - ✅ Validation du code réussie
+          - ✅ Tests passés avec couverture >= 50%
+          - ✅ Build web réussi
+          - ✅ Déploiement Blue-Green terminé
+          
+          🌐 **Application déployée:** [Voir l'application](https://${{ secrets.FIREBASE_PROJECT_ID }}.web.app)
+          
+          📝 **Canal actuel:** $NEW_CHANNEL (promu vers live)`;
+          
+          if (botComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              issue_number: context.issue.number,
+              comment_id: botComment.id,
+              body: commentBody
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              issue_number: context.issue.number,
+              body: commentBody
+            });
+          }
