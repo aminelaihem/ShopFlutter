@@ -5,12 +5,12 @@ Une application e-commerce moderne développée avec Flutter, utilisant Firebase
 ## 🚀 Déploiement
 
 ### Application Web Live
-🌐 **URL de production:** [https://shopflutter-d3308.web.app](https://shopflutter-d3308.web.app)
+🌐 **URL de production:** [https://shopflutter.vercel.app](https://shopflutter.vercel.app)
 
 ### Environnements
-- **Production:** [https://shopflutter-d3308.web.app](https://shopflutter-d3308.web.app)
-- **Preview (Blue):** [https://shopflutter-d3308--blue.web.app](https://shopflutter-d3308--blue.web.app)
-- **Preview (Green):** [https://shopflutter-d3308--green.web.app](https://shopflutter-d3308--green.web.app)
+- **Production:** [https://shopflutter.vercel.app](https://shopflutter.vercel.app)
+- **Preview Branches:** [https://vercel.com/aminelaihem/shopflutter](https://vercel.com/aminelaihem/shopflutter)
+- **Dashboard Vercel:** [https://vercel.com/dashboard](https://vercel.com/dashboard)
 
 ## 🛠️ Technologies
 
@@ -21,7 +21,7 @@ Une application e-commerce moderne développée avec Flutter, utilisant Firebase
 - **Paiements:** Stripe
 - **Base de données:** Hive (local) + Firebase
 - **CI/CD:** GitHub Actions
-- **Hébergement:** Firebase Hosting
+- **Hébergement:** Vercel (gratuit)
 
 ## 📋 Fonctionnalités
 
@@ -54,16 +54,16 @@ Une application e-commerce moderne développée avec Flutter, utilisant Firebase
    flutter pub get
    ```
 
-3. **Configuration Firebase**
+3. **Configuration Vercel**
    ```bash
-   # Installer Firebase CLI
-   npm install -g firebase-tools
+   # Installer Vercel CLI
+   npm install -g vercel
    
-   # Se connecter à Firebase
-   firebase login
+   # Se connecter à Vercel
+   vercel login
    
    # Configurer le projet
-   firebase use shopflutter-d3308
+   vercel
    ```
 
 4. **Variables d'environnement**
@@ -107,13 +107,13 @@ flutter test integration_test/
 ./scripts/build-web.sh --debug
 ```
 
-### Déploiement Blue-Green
+### Déploiement Vercel
 ```bash
 # Déploiement automatique
-./scripts/deploy-blue-green.sh
+scripts\deploy-vercel.bat
 
 # Mode dry-run (test)
-./scripts/deploy-blue-green.sh --dry-run
+scripts\deploy-vercel.bat --dry-run
 ```
 
 ## 🔄 CI/CD
@@ -124,7 +124,7 @@ Le projet utilise GitHub Actions pour l'intégration continue et le déploiement
 - ✅ **Validation du code:** Formatage + Analyse statique
 - ✅ **Tests:** Tests unitaires avec couverture ≥ 50%
 - ✅ **Build:** Build web automatique
-- ✅ **Déploiement:** Blue-Green sur Firebase Hosting
+- ✅ **Déploiement:** Automatique sur Vercel
 
 ### Déclencheurs
 - **Push sur `main`:** Déploiement automatique en production
@@ -139,7 +139,7 @@ Le projet utilise GitHub Actions pour l'intégration continue et le déploiement
 - **Performance:** Lighthouse score ≥ 90
 
 ### Logs et monitoring
-- **Firebase Console:** [https://console.firebase.google.com/project/shopflutter-d3308](https://console.firebase.google.com/project/shopflutter-d3308)
+- **Vercel Dashboard:** [https://vercel.com/dashboard](https://vercel.com/dashboard)
 - **GitHub Actions:** [https://github.com/votre-username/shopflutter/actions](https://github.com/votre-username/shopflutter/actions)
 
 ## 🛡️ Sécurité

@@ -89,9 +89,9 @@ jobs:
         path: build/web/
         retention-days: 30
 
-  # Job de déploiement Blue-Green sur Firebase Hosting
+  # Job de déploiement sur Vercel
   deploy:
-    name: Déploiement Blue-Green
+    name: Déploiement Vercel
     runs-on: ubuntu-latest
     needs: build-and-deploy
     if: github.ref == 'refs/heads/main'
@@ -100,61 +100,32 @@ jobs:
     - name: Checkout du code
       uses: actions/checkout@v4
       
-    - name: Récupération des artefacts de build
-      uses: actions/download-artifact@v4
-      with:
-        name: web-build
-        path: build/web/
-        
     - name: Configuration de Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         
-    - name: Installation de Firebase CLI
-      run: npm install -g firebase-tools
+    - name: Installation de Vercel CLI
+      run: npm install -g vercel@latest
       
-    - name: Configuration de Firebase
+    - name: Configuration Vercel
       run: |
-        echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > firebase-service-account.json
-        firebase use --add ${{ secrets.FIREBASE_PROJECT_ID }}
-        firebase login:ci --token ${{ secrets.FIREBASE_TOKEN }}
+        echo "Configuring Vercel..."
+        vercel --token ${{ secrets.VERCEL_TOKEN }} --yes
         
-    - name: Déploiement sur canal preview (Blue-Green)
+    - name: Déploiement sur Vercel
       run: |
-        # Déterminer le canal actuel
-        CURRENT_CHANNEL=$(firebase hosting:channel:list --json | jq -r '.channels[] | select(.status == "live") | .channelId' | head -1)
+        echo "🚀 Déploiement sur Vercel..."
         
-        if [ "$CURRENT_CHANNEL" = "blue" ]; then
-          NEW_CHANNEL="green"
+        if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          # Déploiement en production
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
+          echo "✅ Déploiement en production terminé"
         else
-          NEW_CHANNEL="blue"
+          # Déploiement en preview
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --yes
+          echo "✅ Déploiement en preview terminé"
         fi
-        
-        echo "Canal actuel: $CURRENT_CHANNEL"
-        echo "Nouveau canal: $NEW_CHANNEL"
-        
-        # Déploiement sur le nouveau canal
-        firebase hosting:channel:deploy $NEW_CHANNEL --only hosting
-        
-        # Attendre que le déploiement soit terminé
-        sleep 30
-        
-        # Smoke tests (vérifications basiques)
-        echo "Exécution des smoke tests..."
-        # Ici vous pouvez ajouter des tests automatisés pour vérifier que l'application fonctionne
-        
-        # Promotion vers live
-        echo "Promotion du canal $NEW_CHANNEL vers live..."
-        firebase hosting:channel:deploy live --only hosting
-        
-        # Nettoyage des anciens canaux
-        firebase hosting:channel:delete $CURRENT_CHANNEL --force
-        
-    - name: Nettoyage
-      if: always()
-      run: |
-        rm -f firebase-service-account.json
         
     - name: Commentaire sur la PR
       if: github.event_name == 'pull_request'
@@ -176,11 +147,11 @@ jobs:
           - ✅ Validation du code réussie
           - ✅ Tests passés avec couverture >= 50%
           - ✅ Build web réussi
-          - ✅ Déploiement Blue-Green terminé
+          - ✅ Déploiement Vercel terminé
           
-          🌐 **Application déployée:** [Voir l'application](https://${{ secrets.FIREBASE_PROJECT_ID }}.web.app)
+          🌐 **Application déployée:** [Voir l'application](https://shopflutter.vercel.app)
           
-          📝 **Canal actuel:** $NEW_CHANNEL (promu vers live)`;
+          📝 **Type:** Preview Branch`;
           
           if (botComment) {
             await github.rest.issues.updateComment({
