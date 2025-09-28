@@ -1,0 +1,65 @@
+name: Tests et Couverture
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.0'
+        channel: 'stable'
+    
+    - name: Install dependencies
+      run: flutter pub get
+    
+    - name: Generate mocks
+      run: flutter packages pub run build_runner build --delete-conflicting-outputs
+    
+    - name: Run unit tests
+      run: flutter test test/unit/ --coverage
+    
+    - name: Run widget tests
+      run: flutter test test/widget/ --coverage
+    
+    - name: Run integration tests
+      run: flutter test test/integration/ --coverage
+    
+    - name: Run all tests with coverage
+      run: flutter test --coverage
+    
+    - name: Install lcov
+      run: sudo apt-get install lcov
+    
+    - name: Generate coverage report
+      run: |
+        genhtml coverage/lcov.info -o coverage/html
+        echo "Coverage report generated in coverage/html/"
+    
+    - name: Check coverage threshold
+      run: |
+        COVERAGE=$(lcov --summary coverage/lcov.info | grep "lines" | awk '{print $2}' | sed 's/%//')
+        echo "Coverage: $COVERAGE%"
+        if (( $(echo "$COVERAGE >= 50" | bc -l) )); then
+          echo "✅ Coverage $COVERAGE% meets requirement (≥50%)"
+        else
+          echo "❌ Coverage $COVERAGE% below requirement (≥50%)"
+          exit 1
+        fi
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
