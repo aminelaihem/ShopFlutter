@@ -5,7 +5,9 @@ import 'package:shopflutter/src/features/auth/presentation/widgets/auth_layout.d
 
 void main() {
   group('AuthLayout Widget Tests', () {
-    testWidgets('devrait afficher le titre et sous-titre', (WidgetTester tester) async {
+    testWidgets('devrait afficher le titre et sous-titre', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const title = 'Test Title';
       const subtitle = 'Test Subtitle';
@@ -14,11 +16,7 @@ void main() {
       // Act
       await tester.pumpWidget(
         MaterialApp(
-          home: AuthLayout(
-            title: title,
-            subtitle: subtitle,
-            child: child,
-          ),
+          home: AuthLayout(title: title, subtitle: subtitle, child: child),
         ),
       );
 
@@ -28,18 +26,16 @@ void main() {
       expect(find.text('Test Child'), findsOneWidget);
     });
 
-    testWidgets('devrait afficher le gradient de fond', (WidgetTester tester) async {
+    testWidgets('devrait afficher le gradient de fond', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const child = Text('Test Child');
 
       // Act
       await tester.pumpWidget(
         MaterialApp(
-          home: AuthLayout(
-            title: 'Test',
-            subtitle: 'Test',
-            child: child,
-          ),
+          home: AuthLayout(title: 'Test', subtitle: 'Test', child: child),
         ),
       );
 
@@ -48,18 +44,16 @@ void main() {
       expect(find.text('Test Child'), findsOneWidget);
     });
 
-    testWidgets('devrait afficher les éléments décoratifs', (WidgetTester tester) async {
+    testWidgets('devrait afficher les éléments décoratifs', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const child = Text('Test Child');
 
       // Act
       await tester.pumpWidget(
         MaterialApp(
-          home: AuthLayout(
-            title: 'Test',
-            subtitle: 'Test',
-            child: child,
-          ),
+          home: AuthLayout(title: 'Test', subtitle: 'Test', child: child),
         ),
       );
 
@@ -75,11 +69,7 @@ void main() {
       // Act
       await tester.pumpWidget(
         MaterialApp(
-          home: AuthLayout(
-            title: 'Test',
-            subtitle: 'Test',
-            child: child,
-          ),
+          home: AuthLayout(title: 'Test', subtitle: 'Test', child: child),
         ),
       );
 

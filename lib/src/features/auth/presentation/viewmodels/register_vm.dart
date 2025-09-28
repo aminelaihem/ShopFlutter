@@ -9,15 +9,24 @@ class RegisterState {
   final String password;
   final bool isLoading;
   final String? error;
-  const RegisterState({this.email = '', this.password = '', this.isLoading = false, this.error});
+  const RegisterState({
+    this.email = '',
+    this.password = '',
+    this.isLoading = false,
+    this.error,
+  });
 
-  RegisterState copyWith({String? email, String? password, bool? isLoading, String? error}) =>
-      RegisterState(
-        email: email ?? this.email,
-        password: password ?? this.password,
-        isLoading: isLoading ?? this.isLoading,
-        error: error,
-      );
+  RegisterState copyWith({
+    String? email,
+    String? password,
+    bool? isLoading,
+    String? error,
+  }) => RegisterState(
+    email: email ?? this.email,
+    password: password ?? this.password,
+    isLoading: isLoading ?? this.isLoading,
+    error: error,
+  );
 }
 
 class RegisterVm extends StateNotifier<RegisterState> {
@@ -40,6 +49,8 @@ class RegisterVm extends StateNotifier<RegisterState> {
   void setPassword(String v) => state = state.copyWith(password: v);
 }
 
-final registerVmProvider = StateNotifierProvider<RegisterVm, RegisterState>((ref) {
+final registerVmProvider = StateNotifierProvider<RegisterVm, RegisterState>((
+  ref,
+) {
   return RegisterVm(ref.watch(registerUsecaseProvider));
 });

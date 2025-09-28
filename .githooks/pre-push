@@ -24,8 +24,8 @@ flutter pub get
 
 # Formatage
 echo "📝 Vérification du formatage..."
-if ! flutter format --set-exit-if-changed; then
-    echo "❌ Code mal formaté. Exécutez: flutter format ."
+if ! dart format --set-exit-if-changed .; then
+    echo "❌ Code mal formaté. Exécutez: dart format ."
     exit 1
 fi
 

@@ -2,7 +2,12 @@
 import 'package:flutter/material.dart';
 
 class AuthLayout extends StatelessWidget {
-  const AuthLayout({super.key, required this.title, required this.subtitle, required this.child});
+  const AuthLayout({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.child,
+  });
 
   final String title;
   final String subtitle;
@@ -88,7 +93,9 @@ class AuthLayout extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF6366F1).withOpacity(0.3),
+                                  color: const Color(
+                                    0xFF6366F1,
+                                  ).withOpacity(0.3),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),

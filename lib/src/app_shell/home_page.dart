@@ -20,7 +20,8 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late AnimationController _scaleController;
@@ -44,13 +45,14 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+        );
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut),
     );
@@ -80,9 +82,15 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(sessionProvider).asData?.value;
-    final cartCount = ref.watch(cartCountProvider).maybeWhen(data: (v) => v, orElse: () => 0);
-    final cartTotal = ref.watch(cartTotalProvider).maybeWhen(data: (v) => v, orElse: () => 0.0);
-    final orders = ref.watch(ordersStreamProvider).maybeWhen(data: (v) => v, orElse: () => const []);
+    final cartCount = ref
+        .watch(cartCountProvider)
+        .maybeWhen(data: (v) => v, orElse: () => 0);
+    final cartTotal = ref
+        .watch(cartTotalProvider)
+        .maybeWhen(data: (v) => v, orElse: () => 0.0);
+    final orders = ref
+        .watch(ordersStreamProvider)
+        .maybeWhen(data: (v) => v, orElse: () => const []);
     final catalog = ref.watch(catalogVmProvider);
 
     return Scaffold(
@@ -147,7 +155,10 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                     IconButton(
                       tooltip: 'Panier',
                       onPressed: () => context.pushNamed('cart'),
-                      icon: const Icon(Icons.shopping_bag_outlined, color: Color(0xFF1E293B)),
+                      icon: const Icon(
+                        Icons.shopping_bag_outlined,
+                        color: Color(0xFF1E293B),
+                      ),
                     ),
                     if (cartCount > 0)
                       Positioned(
@@ -157,13 +168,18 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                           scale: cartCount > 0 ? 1.0 : 0.0,
                           duration: const Duration(milliseconds: 300),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFEF4444),
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFEF4444).withOpacity(0.3),
+                                  color: const Color(
+                                    0xFFEF4444,
+                                  ).withOpacity(0.3),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 ),
@@ -267,9 +283,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           ),
 
           // Espace en bas
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 100),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );
@@ -388,10 +402,7 @@ class _StatCard extends StatelessWidget {
 }
 
 class _QuickActionsGrid extends StatelessWidget {
-  const _QuickActionsGrid({
-    required this.cartCount,
-    required this.cartTotal,
-  });
+  const _QuickActionsGrid({required this.cartCount, required this.cartTotal});
 
   final int cartCount;
   final double cartTotal;
@@ -503,10 +514,7 @@ class _ActionCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: const Color(0xFF64748B),
-                ),
+                style: TextStyle(fontSize: 12, color: const Color(0xFF64748B)),
               ),
             ],
           ),
@@ -524,7 +532,10 @@ class _StatsCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalOrders = orders.length;
-    final totalSpent = orders.fold<double>(0, (sum, order) => sum + order.total);
+    final totalSpent = orders.fold<double>(
+      0,
+      (sum, order) => sum + order.total,
+    );
     final avgOrderValue = totalOrders > 0 ? totalSpent / totalOrders : 0.0;
 
     return Padding(
@@ -699,7 +710,10 @@ class _OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemCount = order.items.fold<int>(0, (int acc, dynamic item) => acc + (item.qty as int));
+    final itemCount = order.items.fold<int>(
+      0,
+      (int acc, dynamic item) => acc + (item.qty as int),
+    );
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -844,7 +858,10 @@ class _ProductCard extends StatelessWidget {
       shadowColor: Colors.black.withOpacity(0.1),
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        onTap: () => context.pushNamed('product', pathParameters: {'id': '${product.id}'}),
+        onTap: () => context.pushNamed(
+          'product',
+          pathParameters: {'id': '${product.id}'},
+        ),
         borderRadius: BorderRadius.circular(20),
         child: Container(
           decoration: BoxDecoration(
@@ -858,14 +875,20 @@ class _ProductCard extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
                   child: Image.network(
                     product.thumbnail,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     errorBuilder: (context, error, stackTrace) => Container(
                       color: const Color(0xFFF1F5F9),
-                      child: const Icon(Icons.image_not_supported, size: 40, color: Color(0xFF64748B)),
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        size: 40,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                   ),
                 ),
@@ -901,7 +924,10 @@ class _ProductCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF3B82F6).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
@@ -956,11 +982,7 @@ class _EmptyState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            icon,
-            size: 48,
-            color: const Color(0xFF64748B),
-          ),
+          Icon(icon, size: 48, color: const Color(0xFF64748B)),
           const SizedBox(height: 16),
           Text(
             title,
@@ -971,12 +993,7 @@ class _EmptyState extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: const TextStyle(
-              color: Color(0xFF64748B),
-            ),
-          ),
+          Text(subtitle, style: const TextStyle(color: Color(0xFF64748B))),
         ],
       ),
     );

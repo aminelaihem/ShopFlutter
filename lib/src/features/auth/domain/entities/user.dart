@@ -8,11 +8,11 @@ class UserEntity {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is UserEntity &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              email == other.email &&
-              displayName == other.displayName;
+      other is UserEntity &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          email == other.email &&
+          displayName == other.displayName;
 
   @override
   int get hashCode => Object.hash(id, email, displayName);

@@ -19,26 +19,32 @@ void main() {
       registerUseCase = Register(mockRepository);
     });
 
-    test('devrait retourner un utilisateur quand l\'inscription réussit', () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = 'password123';
-      const expectedUser = UserEntity(
-        id: '1',
-        email: 'test@example.com',
-        displayName: 'Test User',
-      );
+    test(
+      'devrait retourner un utilisateur quand l\'inscription réussit',
+      () async {
+        // Arrange
+        const email = 'test@example.com';
+        const password = 'password123';
+        const expectedUser = UserEntity(
+          id: '1',
+          email: 'test@example.com',
+          displayName: 'Test User',
+        );
 
-      when(mockRepository.register(email: email, password: password))
-          .thenAnswer((_) async => expectedUser);
+        when(
+          mockRepository.register(email: email, password: password),
+        ).thenAnswer((_) async => expectedUser);
 
-      // Act
-      final result = await registerUseCase(email, password);
+        // Act
+        final result = await registerUseCase(email, password);
 
-      // Assert
-      expect(result, equals(expectedUser));
-      verify(mockRepository.register(email: email, password: password)).called(1);
-    });
+        // Assert
+        expect(result, equals(expectedUser));
+        verify(
+          mockRepository.register(email: email, password: password),
+        ).called(1);
+      },
+    );
 
     test('devrait lancer une exception quand l\'email est vide', () async {
       // Arrange
@@ -53,31 +59,37 @@ void main() {
       verifyNever(mockRepository.register(email: email, password: password));
     });
 
-    test('devrait lancer une exception quand le mot de passe est trop court', () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = '12345'; // < 6 caractères
+    test(
+      'devrait lancer une exception quand le mot de passe est trop court',
+      () async {
+        // Arrange
+        const email = 'test@example.com';
+        const password = '12345'; // < 6 caractères
 
-      // Act & Assert
-      expect(
-        () => registerUseCase(email, password),
-        throwsA(isA<AuthException>()),
-      );
-      verifyNever(mockRepository.register(email: email, password: password));
-    });
+        // Act & Assert
+        expect(
+          () => registerUseCase(email, password),
+          throwsA(isA<AuthException>()),
+        );
+        verifyNever(mockRepository.register(email: email, password: password));
+      },
+    );
 
-    test('devrait lancer une exception quand l\'email ne contient que des espaces', () async {
-      // Arrange
-      const email = '   ';
-      const password = 'password123';
+    test(
+      'devrait lancer une exception quand l\'email ne contient que des espaces',
+      () async {
+        // Arrange
+        const email = '   ';
+        const password = 'password123';
 
-      // Act & Assert
-      expect(
-        () => registerUseCase(email, password),
-        throwsA(isA<AuthException>()),
-      );
-      verifyNever(mockRepository.register(email: email, password: password));
-    });
+        // Act & Assert
+        expect(
+          () => registerUseCase(email, password),
+          throwsA(isA<AuthException>()),
+        );
+        verifyNever(mockRepository.register(email: email, password: password));
+      },
+    );
 
     test('devrait accepter un mot de passe de 6 caractères', () async {
       // Arrange
@@ -85,15 +97,18 @@ void main() {
       const password = '123456';
       const expectedUser = UserEntity(id: '1', email: 'test@example.com');
 
-      when(mockRepository.register(email: email, password: password))
-          .thenAnswer((_) async => expectedUser);
+      when(
+        mockRepository.register(email: email, password: password),
+      ).thenAnswer((_) async => expectedUser);
 
       // Act
       final result = await registerUseCase(email, password);
 
       // Assert
       expect(result, equals(expectedUser));
-      verify(mockRepository.register(email: email, password: password)).called(1);
+      verify(
+        mockRepository.register(email: email, password: password),
+      ).called(1);
     });
 
     test('devrait propager l\'exception du repository', () async {
@@ -101,8 +116,9 @@ void main() {
       const email = 'test@example.com';
       const password = 'password123';
 
-      when(mockRepository.register(email: email, password: password))
-          .thenThrow(AuthException('email-already-in-use', 'Email déjà utilisé.'));
+      when(
+        mockRepository.register(email: email, password: password),
+      ).thenThrow(AuthException('email-already-in-use', 'Email déjà utilisé.'));
 
       // Act & Assert
       expect(
@@ -111,20 +127,32 @@ void main() {
       );
     });
 
-    test('devrait trimmer l\'email avant de l\'envoyer au repository', () async {
-      // Arrange
-      const email = '  test@example.com  ';
-      const password = 'password123';
-      const expectedUser = UserEntity(id: '1', email: 'test@example.com');
+    test(
+      'devrait trimmer l\'email avant de l\'envoyer au repository',
+      () async {
+        // Arrange
+        const email = '  test@example.com  ';
+        const password = 'password123';
+        const expectedUser = UserEntity(id: '1', email: 'test@example.com');
 
-      when(mockRepository.register(email: 'test@example.com', password: password))
-          .thenAnswer((_) async => expectedUser);
+        when(
+          mockRepository.register(
+            email: 'test@example.com',
+            password: password,
+          ),
+        ).thenAnswer((_) async => expectedUser);
 
-      // Act
-      await registerUseCase(email, password);
+        // Act
+        await registerUseCase(email, password);
 
-      // Assert
-      verify(mockRepository.register(email: 'test@example.com', password: password)).called(1);
-    });
+        // Assert
+        verify(
+          mockRepository.register(
+            email: 'test@example.com',
+            password: password,
+          ),
+        ).called(1);
+      },
+    );
   });
 }

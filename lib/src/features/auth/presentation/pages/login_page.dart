@@ -16,7 +16,8 @@ class LoginPage extends ConsumerStatefulWidget {
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateMixin {
+class _LoginPageState extends ConsumerState<LoginPage>
+    with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _pwdCtrl = TextEditingController();
@@ -37,10 +38,13 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
     _animationController.forward();
   }
@@ -71,7 +75,9 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
             content: Text(msg),
             backgroundColor: const Color(0xFFEF4444),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -91,7 +97,9 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
           content: const Text('Facebook Sign-In sera bientôt disponible'),
           backgroundColor: const Color(0xFF1877F2),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -103,7 +111,9 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
           content: const Text('Apple Sign-In sera bientôt disponible'),
           backgroundColor: const Color(0xFF000000),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -137,7 +147,11 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
                   obscureText: _obscure,
                   suffixIcon: IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),
-                    icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    icon: Icon(
+                      _obscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
                   ),
                   validator: (v) => validatePassword(v ?? ''),
                   onFieldSubmitted: (_) => submit(),
@@ -151,9 +165,13 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
                       // TODO: Implémenter réinitialisation mot de passe
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: const Text('Réinitialisation du mot de passe bientôt disponible'),
+                          content: const Text(
+                            'Réinitialisation du mot de passe bientôt disponible',
+                          ),
                           behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       );
                     },
@@ -186,20 +204,22 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
                     ),
                     child: state.isLoading
                         ? const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
                         : const Text(
-                      'Se connecter',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                            'Se connecter',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
 
@@ -248,10 +268,7 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
                   children: [
                     Text(
                       'Pas encore de compte ? ',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                     ),
                     TextButton(
                       onPressed: () => context.go(AppRoutes.register),
@@ -277,7 +294,11 @@ class _LoginPageState extends ConsumerState<LoginPage> with TickerProviderStateM
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 20),
+                        const Icon(
+                          Icons.error_outline,
+                          color: Color(0xFFEF4444),
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -336,10 +357,7 @@ class _ModernTextField extends StatelessWidget {
       textInputAction: textInputAction,
       autofillHints: autofillHints,
       onFieldSubmitted: onFieldSubmitted,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(prefixIcon, color: const Color(0xFF6366F1)),
@@ -370,7 +388,10 @@ class _ModernTextField extends StatelessWidget {
           color: Color(0xFF64748B),
           fontWeight: FontWeight.w500,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
     );
   }
@@ -423,6 +444,3 @@ class _SocialButton extends StatelessWidget {
     );
   }
 }
-
-
-

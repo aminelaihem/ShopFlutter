@@ -13,7 +13,7 @@ void main() {
 
       // Vérifier la présence de labels sémantiques
       expect(find.byType(Semantics), findsWidgets);
-      
+
       // Vérifier que les boutons ont des labels
       final buttons = find.byType(ElevatedButton);
       for (int i = 0; i < buttons.evaluate().length; i++) {
@@ -33,10 +33,10 @@ void main() {
       for (int i = 0; i < textWidgets.evaluate().length; i++) {
         final textWidget = textWidgets.at(i);
         final text = textWidget.widget as Text;
-        
+
         // Vérifier que le style n'est pas null
         expect(text.style, isNotNull);
-        
+
         // Vérifier que la couleur n'est pas trop claire
         if (text.style?.color != null) {
           final color = text.style!.color!;
@@ -46,7 +46,9 @@ void main() {
       }
     });
 
-    testWidgets('Test de la navigation au clavier', (WidgetTester tester) async {
+    testWidgets('Test de la navigation au clavier', (
+      WidgetTester tester,
+    ) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -68,10 +70,13 @@ void main() {
       for (int i = 0; i < textWidgets.evaluate().length; i++) {
         final textWidget = textWidgets.at(i);
         final text = textWidget.widget as Text;
-        
+
         if (text.style?.fontSize != null) {
           final fontSize = text.style!.fontSize!;
-          expect(fontSize, greaterThanOrEqualTo(12.0)); // Taille minimale recommandée
+          expect(
+            fontSize,
+            greaterThanOrEqualTo(12.0),
+          ); // Taille minimale recommandée
         }
       }
     });
@@ -89,7 +94,9 @@ void main() {
       }
     });
 
-    testWidgets('Test des descriptions alternatives', (WidgetTester tester) async {
+    testWidgets('Test des descriptions alternatives', (
+      WidgetTester tester,
+    ) async {
       app.main();
       await tester.pumpAndSettle();
 
@@ -98,7 +105,7 @@ void main() {
       for (int i = 0; i < imageWidgets.evaluate().length; i++) {
         final imageWidget = imageWidgets.at(i);
         final image = imageWidget.widget as Image;
-        
+
         // Vérifier que l'image a un sémantique label ou un tooltip
         final semantics = tester.getSemantics(imageWidget);
         expect(semantics.label, isNotNull);

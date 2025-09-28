@@ -4,17 +4,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Simple Widget Tests', () {
-    testWidgets('devrait afficher un texte simple', (WidgetTester tester) async {
+    testWidgets('devrait afficher un texte simple', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const testText = 'Hello World';
 
       // Act
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Text(testText),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: Text(testText))),
       );
 
       // Assert
@@ -42,7 +40,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
-    testWidgets('devrait gérer les interactions de bouton', (WidgetTester tester) async {
+    testWidgets('devrait gérer les interactions de bouton', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       bool buttonPressed = false;
       const buttonText = 'Press Me';
@@ -66,7 +66,9 @@ void main() {
       expect(buttonPressed, isTrue);
     });
 
-    testWidgets('devrait afficher un formulaire simple', (WidgetTester tester) async {
+    testWidgets('devrait afficher un formulaire simple', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const hintText = 'Enter text';
 
@@ -75,9 +77,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: TextField(
-              decoration: const InputDecoration(
-                hintText: hintText,
-              ),
+              decoration: const InputDecoration(hintText: hintText),
             ),
           ),
         ),
@@ -88,7 +88,9 @@ void main() {
       expect(find.text(hintText), findsOneWidget);
     });
 
-    testWidgets('devrait gérer la saisie de texte', (WidgetTester tester) async {
+    testWidgets('devrait gérer la saisie de texte', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const inputText = 'Test Input';
 
@@ -97,9 +99,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Enter text',
-              ),
+              decoration: const InputDecoration(hintText: 'Enter text'),
             ),
           ),
         ),
@@ -120,7 +120,9 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: ListView(
-              children: items.map((item) => ListTile(title: Text(item))).toList(),
+              children: items
+                  .map((item) => ListTile(title: Text(item)))
+                  .toList(),
             ),
           ),
         ),

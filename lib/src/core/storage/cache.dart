@@ -6,7 +6,11 @@ class CacheStore {
   CacheStore(this._box);
   final Box _box;
 
-  Future<void> writeJson(String key, Object data, {Duration ttl = const Duration(hours: 1)}) async {
+  Future<void> writeJson(
+    String key,
+    Object data, {
+    Duration ttl = const Duration(hours: 1),
+  }) async {
     final payload = {
       'data': data,
       'ts': DateTime.now().millisecondsSinceEpoch,

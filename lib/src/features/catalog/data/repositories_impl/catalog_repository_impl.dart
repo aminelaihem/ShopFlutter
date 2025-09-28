@@ -10,7 +10,7 @@ import '../../../../core/storage/cache.dart';
 
 class CatalogRepositoryImpl implements CatalogRepository {
   CatalogRepositoryImpl(this._remote, this._cacheBox)
-      : _cache = CacheStore(_cacheBox);
+    : _cache = CacheStore(_cacheBox);
 
   final CatalogRemoteDs _remote;
   final Box _cacheBox;
@@ -32,11 +32,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
     final models = raw.map((e) => ProductModel.fromJson(e)).toList();
     final entities = models.map((m) => m.toEntity()).toList();
 
-    await _cache.writeJson(
-      _kProductsKey,
-      raw,
-      ttl: _ttl,
-    );
+    await _cache.writeJson(_kProductsKey, raw, ttl: _ttl);
     return entities;
   }
 

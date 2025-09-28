@@ -2,7 +2,7 @@
 import '../../../cart/domain/entities/cart_item.dart';
 
 class OrderEntity {
-  final String id;           // uuid
+  final String id; // uuid
   final List<CartItem> items;
   final double total;
   final DateTime createdAt;

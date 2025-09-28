@@ -33,15 +33,14 @@ class CheckoutState {
     String? zip,
     bool? loading,
     String? error,
-  }) =>
-      CheckoutState(
-        fullName: fullName ?? this.fullName,
-        address: address ?? this.address,
-        city: city ?? this.city,
-        zip: zip ?? this.zip,
-        loading: loading ?? this.loading,
-        error: error,
-      );
+  }) => CheckoutState(
+    fullName: fullName ?? this.fullName,
+    address: address ?? this.address,
+    city: city ?? this.city,
+    zip: zip ?? this.zip,
+    loading: loading ?? this.loading,
+    error: error,
+  );
 }
 
 class CheckoutVm extends StateNotifier<CheckoutState> {
@@ -86,7 +85,9 @@ class CheckoutVm extends StateNotifier<CheckoutState> {
   }
 }
 
-final checkoutVmProvider = StateNotifierProvider<CheckoutVm, CheckoutState>((ref) {
+final checkoutVmProvider = StateNotifierProvider<CheckoutVm, CheckoutState>((
+  ref,
+) {
   final orders = ref.watch(orderRepositoryProvider);
   final cart = ref.watch(cartRepositoryProvider);
   return CheckoutVm(orders, cart);

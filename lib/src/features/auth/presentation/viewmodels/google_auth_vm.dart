@@ -8,28 +8,19 @@ import '../../../../app/di/auth_providers.dart';
 class GoogleAuthState {
   final bool isLoading;
   final String? error;
-  
-  const GoogleAuthState({
-    this.isLoading = false,
-    this.error,
-  });
 
-  GoogleAuthState copyWith({
-    bool? isLoading,
-    String? error,
-  }) =>
-      GoogleAuthState(
-        isLoading: isLoading ?? this.isLoading,
-        error: error,
-      );
+  const GoogleAuthState({this.isLoading = false, this.error});
+
+  GoogleAuthState copyWith({bool? isLoading, String? error}) =>
+      GoogleAuthState(isLoading: isLoading ?? this.isLoading, error: error);
 }
 
 class GoogleAuthVm extends StateNotifier<GoogleAuthState> {
   final SignInWithGoogle _signInWithGoogle;
   final RegisterWithGoogle _registerWithGoogle;
-  
-  GoogleAuthVm(this._signInWithGoogle, this._registerWithGoogle) 
-      : super(const GoogleAuthState());
+
+  GoogleAuthVm(this._signInWithGoogle, this._registerWithGoogle)
+    : super(const GoogleAuthState());
 
   Future<UserEntity?> signInWithGoogle() async {
     state = state.copyWith(isLoading: true, error: null);
@@ -58,9 +49,10 @@ class GoogleAuthVm extends StateNotifier<GoogleAuthState> {
   void clearError() => state = state.copyWith(error: null);
 }
 
-final googleAuthVmProvider = StateNotifierProvider<GoogleAuthVm, GoogleAuthState>((ref) {
-  return GoogleAuthVm(
-    ref.watch(signInWithGoogleUsecaseProvider),
-    ref.watch(registerWithGoogleUsecaseProvider),
-  );
-});
+final googleAuthVmProvider =
+    StateNotifierProvider<GoogleAuthVm, GoogleAuthState>((ref) {
+      return GoogleAuthVm(
+        ref.watch(signInWithGoogleUsecaseProvider),
+        ref.watch(registerWithGoogleUsecaseProvider),
+      );
+    });

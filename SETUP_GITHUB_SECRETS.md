@@ -6,7 +6,7 @@ Configurer les secrets nécessaires pour que GitHub Actions puisse déployer aut
 ## 📋 Secrets Requis
 
 ### 1. FIREBASE_TOKEN
-**Valeur obtenue :** `1//031uLpz-C_Pm6CgYIARAAGAMSNwF-L9IrKX31zmDpt-gWJOBDy0PGKuOQlyGU2uJacvmlxfDThxv5fG8tzUSIvt_tOA1PgAoY7Q0`
+**Valeur obtenue :** `[TOKEN_GÉNÉRÉ_LOCALEMENT]`
 
 ### 2. FIREBASE_PROJECT_ID
 **Valeur :** `shopflutter-d3308`
@@ -22,7 +22,7 @@ Configurer les secrets nécessaires pour que GitHub Actions puisse déployer aut
 ### Étape 2 : Ajouter FIREBASE_TOKEN
 1. Cliquez sur **New repository secret**
 2. **Name :** `FIREBASE_TOKEN`
-3. **Secret :** `1//031uLpz-C_Pm6CgYIARAAGAMSNwF-L9IrKX31zmDpt-gWJOBDy0PGKuOQlyGU2uJacvmlxfDThxv5fG8tzUSIvt_tOA1PgAoY7Q0`
+3. **Secret :** `[VOTRE_TOKEN_FIREBASE]`
 4. Cliquez sur **Add secret**
 
 ### Étape 3 : Ajouter FIREBASE_PROJECT_ID

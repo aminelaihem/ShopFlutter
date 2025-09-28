@@ -24,12 +24,12 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
   late AnimationController _animationController;
   late AnimationController _searchAnimationController;
   late AnimationController _filterAnimationController;
-  
+
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _searchAnimation;
   late Animation<double> _filterAnimation;
-  
+
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   String _selectedCategory = 'Tous';
@@ -45,7 +45,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     'Sport',
     'Loisirs',
     'Beauté',
-    'Livres'
+    'Livres',
   ];
 
   final List<String> _sortOptions = [
@@ -53,7 +53,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     'Prix croissant',
     'Prix décroissant',
     'Nouveautés',
-    'Populaire'
+    'Populaire',
   ];
 
   @override
@@ -67,12 +67,12 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
-    
+
     _searchAnimationController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     _filterAnimationController = AnimationController(
       duration: const Duration(milliseconds: 400),
       vsync: this,
@@ -81,18 +81,24 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
-    
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
-    
+
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
+
     _searchAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _searchAnimationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _searchAnimationController,
+        curve: Curves.easeInOut,
+      ),
     );
-    
+
     _filterAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _filterAnimationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _filterAnimationController,
+        curve: Curves.easeInOut,
+      ),
     );
 
     _animationController.forward();
@@ -150,7 +156,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
               ),
             ],
           ),
-          child: const Icon(Icons.arrow_back_ios_rounded, color: Color(0xFF6366F1)),
+          child: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Color(0xFF6366F1),
+          ),
         ),
         onPressed: () {
           if (context.canPop()) {
@@ -220,11 +229,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF6366F1),
-                Color(0xFF8B5CF6),
-                Color(0xFFEC4899),
-              ],
+              colors: [Color(0xFF6366F1), Color(0xFF8B5CF6), Color(0xFFEC4899)],
               stops: [0.0, 0.5, 1.0],
             ),
           ),
@@ -237,7 +242,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     if (!_isSearchExpanded) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
-    
+
     return SliverToBoxAdapter(
       child: AnimatedBuilder(
         animation: _searchAnimation,
@@ -250,7 +255,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                 offset: Offset(0, (1 - _searchAnimation.value) * -20),
                 child: Container(
                   margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -262,32 +270,41 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       ),
                     ],
                   ),
-        child: TextField(
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
-          decoration: InputDecoration(
-            hintText: 'Rechercher un produit...',
-            prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF6366F1)),
-            filled: true,
-            fillColor: const Color(0xFFF8FAFC),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF6366F1), width: 2),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          ),
-        ),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Rechercher un produit...',
+                      prefixIcon: const Icon(
+                        Icons.search_rounded,
+                        color: Color(0xFF6366F1),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xFFF8FAFC),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF6366F1),
+                          width: 2,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -331,25 +348,32 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                             padding: const EdgeInsets.only(right: 8),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
                               decoration: BoxDecoration(
-                                color: isSelected 
+                                color: isSelected
                                     ? const Color(0xFF6366F1)
                                     : const Color(0xFFF8FAFC),
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: isSelected 
+                                  color: isSelected
                                       ? const Color(0xFF6366F1)
                                       : const Color(0xFFE5E7EB),
                                   width: isSelected ? 2 : 1,
                                 ),
-                                boxShadow: isSelected ? [
-                                  BoxShadow(
-                                    color: const Color(0xFF6366F1).withOpacity(0.3),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ] : null,
+                                boxShadow: isSelected
+                                    ? [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFF6366F1,
+                                          ).withOpacity(0.3),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ]
+                                    : null,
                               ),
                               child: GestureDetector(
                                 onTap: () {
@@ -360,7 +384,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                                 child: Text(
                                   category,
                                   style: TextStyle(
-                                    color: isSelected ? Colors.white : Colors.grey[700],
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.grey[700],
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
                                   ),
@@ -372,17 +398,17 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       ),
                     ),
                   ),
-                  
+
                   // Bouton de tri
                   Container(
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: _sortBy != 'Recommandé' 
+                      color: _sortBy != 'Recommandé'
                           ? const Color(0xFF6366F1).withOpacity(0.1)
                           : const Color(0xFFF8FAFC),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: _sortBy != 'Recommandé' 
+                        color: _sortBy != 'Recommandé'
                             ? const Color(0xFF6366F1)
                             : const Color(0xFFE5E7EB),
                         width: _sortBy != 'Recommandé' ? 2 : 1,
@@ -390,8 +416,8 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                     ),
                     child: PopupMenuButton<String>(
                       icon: Icon(
-                        Icons.sort_rounded, 
-                        color: _sortBy != 'Recommandé' 
+                        Icons.sort_rounded,
+                        color: _sortBy != 'Recommandé'
                             ? const Color(0xFF6366F1)
                             : const Color(0xFF6366F1),
                       ),
@@ -406,7 +432,11 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                           child: Row(
                             children: [
                               if (option == _sortBy)
-                                Icon(Icons.check, color: theme.colorScheme.primary, size: 20),
+                                Icon(
+                                  Icons.check,
+                                  color: theme.colorScheme.primary,
+                                  size: 20,
+                                ),
                               const SizedBox(width: 8),
                               Text(option),
                             ],
@@ -415,7 +445,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       }).toList(),
                     ),
                   ),
-                  
+
                   // Bouton de vue
                   Container(
                     margin: const EdgeInsets.only(right: 8),
@@ -426,7 +456,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                     ),
                     child: IconButton(
                       icon: Icon(
-                        _isGridView ? Icons.view_list_rounded : Icons.grid_view_rounded,
+                        _isGridView
+                            ? Icons.view_list_rounded
+                            : Icons.grid_view_rounded,
                         color: const Color(0xFF6366F1),
                       ),
                       onPressed: () {
@@ -439,7 +471,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 16),
           ],
         ),
@@ -544,9 +576,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
 
     // Filtrer les produits selon la recherche et la catégorie
     var filteredProducts = products.where((product) {
-      final matchesSearch = _searchQuery.isEmpty || 
+      final matchesSearch =
+          _searchQuery.isEmpty ||
           product.title.toLowerCase().contains(_searchQuery.toLowerCase());
-      
+
       // Logique de filtrage par catégorie améliorée
       bool matchesCategory = false;
       if (_selectedCategory == 'Tous') {
@@ -555,42 +588,50 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
         final productCategory = product.category?.toLowerCase() ?? '';
         switch (_selectedCategory) {
           case 'Électronique':
-            matchesCategory = productCategory.contains('electronics') || 
-                             productCategory.contains('électronique');
+            matchesCategory =
+                productCategory.contains('electronics') ||
+                productCategory.contains('électronique');
             break;
           case 'Mode':
-            matchesCategory = productCategory.contains('clothing') || 
-                             productCategory.contains('men') || 
-                             productCategory.contains('women') ||
-                             productCategory.contains('mode');
+            matchesCategory =
+                productCategory.contains('clothing') ||
+                productCategory.contains('men') ||
+                productCategory.contains('women') ||
+                productCategory.contains('mode');
             break;
           case 'Maison':
-            matchesCategory = productCategory.contains('home') || 
-                             productCategory.contains('maison') ||
-                             productCategory.contains('furniture');
+            matchesCategory =
+                productCategory.contains('home') ||
+                productCategory.contains('maison') ||
+                productCategory.contains('furniture');
             break;
           case 'Sport':
-            matchesCategory = productCategory.contains('sport') || 
-                             productCategory.contains('fitness');
+            matchesCategory =
+                productCategory.contains('sport') ||
+                productCategory.contains('fitness');
             break;
           case 'Loisirs':
-            matchesCategory = productCategory.contains('jewelry') || 
-                             productCategory.contains('loisirs') ||
-                             productCategory.contains('accessories');
+            matchesCategory =
+                productCategory.contains('jewelry') ||
+                productCategory.contains('loisirs') ||
+                productCategory.contains('accessories');
             break;
           case 'Beauté':
-            matchesCategory = productCategory.contains('beauty') || 
-                             productCategory.contains('beauté');
+            matchesCategory =
+                productCategory.contains('beauty') ||
+                productCategory.contains('beauté');
             break;
           case 'Livres':
-            matchesCategory = productCategory.contains('book') || 
-                             productCategory.contains('livre');
+            matchesCategory =
+                productCategory.contains('book') ||
+                productCategory.contains('livre');
             break;
           default:
-            matchesCategory = productCategory == _selectedCategory.toLowerCase();
+            matchesCategory =
+                productCategory == _selectedCategory.toLowerCase();
         }
       }
-      
+
       return matchesSearch && matchesCategory;
     }).toList();
 
@@ -623,15 +664,19 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     print('Tri: "$_sortBy"');
     print('Total produits: ${products.length}');
     print('Produits filtrés: ${filteredProducts.length}');
-    
+
     // Afficher les catégories disponibles
     final categories = products.map((p) => p.category).toSet().toList();
     print('Catégories disponibles: $categories');
-    
+
     // Afficher quelques exemples de produits filtrés
     if (filteredProducts.isNotEmpty) {
       print('Exemples de produits filtrés:');
-      for (int i = 0; i < (filteredProducts.length > 3 ? 3 : filteredProducts.length); i++) {
+      for (
+        int i = 0;
+        i < (filteredProducts.length > 3 ? 3 : filteredProducts.length);
+        i++
+      ) {
         final p = filteredProducts[i];
         print('- ${p.title} (${p.category}) - ${p.price}€');
       }
@@ -645,43 +690,43 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
         crossAxisSpacing: 16,
         mainAxisSpacing: 12,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final product = filteredProducts[index];
-          return AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0, 0.3),
-                    end: Offset.zero,
-                  ).animate(CurvedAnimation(
-                    parent: _animationController,
-                    curve: Interval(
-                      index * 0.1,
-                      1.0,
-                      curve: Curves.easeOut,
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final product = filteredProducts[index];
+        return AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return FadeTransition(
+              opacity: _fadeAnimation,
+              child: SlideTransition(
+                position:
+                    Tween<Offset>(
+                      begin: const Offset(0, 0.3),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: _animationController,
+                        curve: Interval(
+                          index * 0.1,
+                          1.0,
+                          curve: Curves.easeOut,
+                        ),
+                      ),
                     ),
-                  )),
-                  child: _isGridView 
-                      ? _buildModernProductCard(product, theme)
-                      : _buildListProductCard(product, theme),
-                ),
-              );
-            },
-          );
-        },
-        childCount: filteredProducts.length,
-      ),
+                child: _isGridView
+                    ? _buildModernProductCard(product, theme)
+                    : _buildListProductCard(product, theme),
+              ),
+            );
+          },
+        );
+      }, childCount: filteredProducts.length),
     );
   }
 
   Widget _buildModernProductCard(dynamic product, ThemeData theme) {
     // Debug: Afficher l'URL de l'image
     print('Product thumbnail URL: ${product.thumbnail}');
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -697,7 +742,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => context.pushNamed('product', pathParameters: {'id': '${product.id}'}),
+          onTap: () => context.pushNamed(
+            'product',
+            pathParameters: {'id': '${product.id}'},
+          ),
           borderRadius: BorderRadius.circular(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -708,7 +756,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
@@ -724,7 +774,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                             end: Alignment.bottomRight,
                           ),
                         ),
-                        child: product.thumbnail != null && product.thumbnail.isNotEmpty
+                        child:
+                            product.thumbnail != null &&
+                                product.thumbnail.isNotEmpty
                             ? Image.network(
                                 product.thumbnail,
                                 fit: BoxFit.cover,
@@ -751,33 +803,40 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                                     ),
                                   );
                                 },
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Color(0xFF6366F1),
-                                          Color(0xFF8B5CF6),
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress.expectedTotalBytes != null
-                                            ? loadingProgress.cumulativeBytesLoaded /
-                                                loadingProgress.expectedTotalBytes!
-                                            : null,
-                                        strokeWidth: 2,
-                                        valueColor: const AlwaysStoppedAnimation<Color>(
-                                          Colors.white,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xFF6366F1),
+                                              Color(0xFF8B5CF6),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                },
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            value:
+                                                loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                : null,
+                                            strokeWidth: 2,
+                                            valueColor:
+                                                const AlwaysStoppedAnimation<
+                                                  Color
+                                                >(Colors.white),
+                                          ),
+                                        ),
+                                      );
+                                    },
                               )
                             : Container(
                                 decoration: const BoxDecoration(
@@ -800,7 +859,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                               ),
                       ),
                     ),
-                    
+
                     // Bouton favori
                     Positioned(
                       top: 8,
@@ -853,10 +912,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       const SizedBox(height: 4),
                       Text(
                         product.category ?? 'Catégorie',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[500],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -864,15 +920,15 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       Row(
                         children: [
                           Flexible(
-                            child:                           Text(
-                            MoneyFormatter.format(product.price ?? 0),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6366F1),
+                            child: Text(
+                              MoneyFormatter.format(product.price ?? 0),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF6366F1),
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
                           ),
                           const Spacer(),
                           Container(
@@ -917,7 +973,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => context.pushNamed('product', pathParameters: {'id': '${product.id}'}),
+          onTap: () => context.pushNamed(
+            'product',
+            pathParameters: {'id': '${product.id}'},
+          ),
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(12),
@@ -929,17 +988,19 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                   child: Container(
                     width: 70,
                     height: 70,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF6366F1),
-                            Color(0xFF8B5CF6),
-                            Color(0xFFEC4899),
-                          ],
-                          stops: [0.0, 0.5, 1.0],
-                        ),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF6366F1),
+                          Color(0xFF8B5CF6),
+                          Color(0xFFEC4899),
+                        ],
+                        stops: [0.0, 0.5, 1.0],
                       ),
-                    child: product.thumbnail != null && product.thumbnail.isNotEmpty
+                    ),
+                    child:
+                        product.thumbnail != null &&
+                            product.thumbnail.isNotEmpty
                         ? Image.network(
                             product.thumbnail,
                             fit: BoxFit.cover,
@@ -981,14 +1042,19 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                                 ),
                                 child: Center(
                                   child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
+                                    value:
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!
                                         : null,
                                     strokeWidth: 2,
-                                    valueColor: const AlwaysStoppedAnimation<Color>(
-                                      Colors.white,
-                                    ),
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
                                   ),
                                 ),
                               );
@@ -997,10 +1063,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                         : Container(
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [
-                                  Color(0xFF6366F1),
-                                  Color(0xFF8B5CF6),
-                                ],
+                                colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
@@ -1015,9 +1078,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                           ),
                   ),
                 ),
-                
+
                 const SizedBox(width: 12),
-                
+
                 // Informations du produit
                 Expanded(
                   child: Column(
@@ -1036,10 +1099,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                       const SizedBox(height: 4),
                       Text(
                         product.category ?? 'Catégorie',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[500],
-                        ),
+                        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
                       ),
                       const SizedBox(height: 6),
                       Text(
@@ -1053,7 +1113,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
                     ],
                   ),
                 ),
-                
+
                 // Bouton d'action
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -1090,7 +1150,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
               ),
               child: CircularProgressIndicator(
                 strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  theme.colorScheme.primary,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -1139,10 +1201,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
             const SizedBox(height: 8),
             Text(
               'Impossible de charger les produits',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -1150,7 +1209,10 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -1194,10 +1256,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
             const SizedBox(height: 8),
             Text(
               'Essayez de modifier vos filtres',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -1209,7 +1268,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage>
     setState(() {
       _isSearchExpanded = !_isSearchExpanded;
     });
-    
+
     if (_isSearchExpanded) {
       _searchAnimationController.forward();
     } else {

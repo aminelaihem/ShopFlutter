@@ -62,7 +62,9 @@ void main() {
       );
     });
 
-    testWidgets('Golden test - Orientation paysage', (WidgetTester tester) async {
+    testWidgets('Golden test - Orientation paysage', (
+      WidgetTester tester,
+    ) async {
       // Orientation paysage
       tester.binding.window.physicalSizeTestValue = const Size(667, 375);
       tester.binding.window.devicePixelRatioTestValue = 2.0;

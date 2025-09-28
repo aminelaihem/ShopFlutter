@@ -43,7 +43,8 @@ class CatalogState {
   List<Product> get visible {
     final q = query.trim().toLowerCase();
     return products.where((p) {
-      final byQuery = q.isEmpty ||
+      final byQuery =
+          q.isEmpty ||
           p.title.toLowerCase().contains(q) ||
           p.description.toLowerCase().contains(q);
       final byCat = selectedCategory == null || p.category == selectedCategory;
@@ -53,7 +54,8 @@ class CatalogState {
 }
 
 class CatalogVm extends StateNotifier<CatalogState> {
-  CatalogVm(this._fetchProducts, this._fetchCategories) : super(const CatalogState());
+  CatalogVm(this._fetchProducts, this._fetchCategories)
+    : super(const CatalogState());
 
   final FetchProducts _fetchProducts;
   final FetchCategories _fetchCategories;
@@ -74,10 +76,14 @@ class CatalogVm extends StateNotifier<CatalogState> {
   }
 
   void setQuery(String q) => state = state.copyWith(query: q);
-  void selectCategory(String? cat) => state = state.copyWith(selectedCategory: cat == 'Tous' ? null : cat);
+  void selectCategory(String? cat) =>
+      state = state.copyWith(selectedCategory: cat == 'Tous' ? null : cat);
   Future<void> refresh() => load();
 }
 
 final catalogVmProvider = StateNotifierProvider<CatalogVm, CatalogState>((ref) {
-  return CatalogVm(ref.watch(fetchProductsProvider), ref.watch(fetchCategoriesProvider));
+  return CatalogVm(
+    ref.watch(fetchProductsProvider),
+    ref.watch(fetchCategoriesProvider),
+  );
 });

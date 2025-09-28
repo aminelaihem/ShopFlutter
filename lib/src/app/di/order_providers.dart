@@ -9,9 +9,9 @@ import '../../features/orders/domain/entities/order.dart';
 final _ordersBoxProvider = Provider<Box>((_) => Hive.box('orders'));
 
 final orderRepositoryProvider = Provider<OrderRepository>(
-      (ref) => OrderRepositoryImpl(ref.watch(_ordersBoxProvider)),
+  (ref) => OrderRepositoryImpl(ref.watch(_ordersBoxProvider)),
 );
 
 final ordersStreamProvider = StreamProvider<List<OrderEntity>>(
-      (ref) => ref.watch(orderRepositoryProvider).watchOrders(),
+  (ref) => ref.watch(orderRepositoryProvider).watchOrders(),
 );

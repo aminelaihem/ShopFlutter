@@ -19,10 +19,10 @@ class GoogleSignInButton extends ConsumerWidget {
     final vm = ref.read(googleAuthVmProvider.notifier);
 
     Future<void> handleGoogleSignIn() async {
-      final user = isRegister 
+      final user = isRegister
           ? await vm.registerWithGoogle()
           : await vm.signInWithGoogle();
-      
+
       if (user != null) {
         onSuccess();
       } else if (state.error != null) {
@@ -32,7 +32,9 @@ class GoogleSignInButton extends ConsumerWidget {
               content: Text(state.error!),
               backgroundColor: const Color(0xFFEF4444),
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           );
         }
@@ -42,7 +44,9 @@ class GoogleSignInButton extends ConsumerWidget {
     return _SocialButton(
       onPressed: state.isLoading ? null : handleGoogleSignIn,
       icon: Icons.g_mobiledata,
-      label: isRegister ? 'S\'inscrire avec Google' : 'Se connecter avec Google',
+      label: isRegister
+          ? 'S\'inscrire avec Google'
+          : 'Se connecter avec Google',
       color: const Color(0xFF4285F4),
       isLoading: state.isLoading,
     );

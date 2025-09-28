@@ -31,13 +31,15 @@ class CartRepositoryImpl implements CartRepository {
 
   Future<void> _write(List<CartItem> items) async {
     final list = items
-        .map((e) => {
-      'productId': e.productId,
-      'title': e.title,
-      'price': e.price,
-      'qty': e.qty,
-      'thumbnail': e.thumbnail,
-    })
+        .map(
+          (e) => {
+            'productId': e.productId,
+            'title': e.title,
+            'price': e.price,
+            'qty': e.qty,
+            'thumbnail': e.thumbnail,
+          },
+        )
         .toList();
     await _box.put(_key, jsonEncode(list));
   }
@@ -98,8 +100,7 @@ class CartRepositoryImpl implements CartRepository {
   Future<List<CartItem>> getItems() async => _read();
 
   @override
-  Future<int> getCount() async =>
-      _read().fold<int>(0, (acc, e) => acc + e.qty);
+  Future<int> getCount() async => _read().fold<int>(0, (acc, e) => acc + e.qty);
 
   @override
   Future<double> getTotal() async =>

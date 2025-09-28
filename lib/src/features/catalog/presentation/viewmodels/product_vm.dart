@@ -12,7 +12,11 @@ class ProductState {
   const ProductState({this.loading = false, this.error, this.product});
 
   ProductState copyWith({bool? loading, String? error, Product? product}) =>
-      ProductState(loading: loading ?? this.loading, error: error, product: product ?? this.product);
+      ProductState(
+        loading: loading ?? this.loading,
+        error: error,
+        product: product ?? this.product,
+      );
 }
 
 class ProductVm extends StateNotifier<ProductState> {
@@ -30,10 +34,11 @@ class ProductVm extends StateNotifier<ProductState> {
   }
 }
 
-final productVmProvider = StateNotifierProvider.family<ProductVm, ProductState, int>((ref, id) {
-  final fetch = ref.watch(fetchProductProvider);
-  final vm = ProductVm(fetch);
-  // auto-load
-  vm.load(id);
-  return vm;
-});
+final productVmProvider =
+    StateNotifierProvider.family<ProductVm, ProductState, int>((ref, id) {
+      final fetch = ref.watch(fetchProductProvider);
+      final vm = ProductVm(fetch);
+      // auto-load
+      vm.load(id);
+      return vm;
+    });

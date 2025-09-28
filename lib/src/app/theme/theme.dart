@@ -7,7 +7,9 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF5B86F7)),
     scaffoldBackgroundColor: const Color(0xFFF7F8FB),
     inputDecorationTheme: const InputDecorationTheme(
-      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(14)),
+      ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xFFE1E5EE)),
         borderRadius: BorderRadius.all(Radius.circular(14)),
@@ -24,6 +26,9 @@ class AppTheme {
 
   static ThemeData dark = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF5B86F7), brightness: Brightness.dark),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xFF5B86F7),
+      brightness: Brightness.dark,
+    ),
   );
 }

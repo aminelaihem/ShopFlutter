@@ -211,18 +211,41 @@ void main() {
 
       // Assert
       expect(catalogVm.state.visible.length, equals(2));
-      expect(catalogVm.state.visible.every((p) => p.category == 'electronics'), isTrue);
-      expect(catalogVm.state.visible.every((p) => 
-        p.title.toLowerCase().contains('smartphone') || 
-        p.description.toLowerCase().contains('smartphone')
-      ), isTrue);
+      expect(
+        catalogVm.state.visible.every((p) => p.category == 'electronics'),
+        isTrue,
+      );
+      expect(
+        catalogVm.state.visible.every(
+          (p) =>
+              p.title.toLowerCase().contains('smartphone') ||
+              p.description.toLowerCase().contains('smartphone'),
+        ),
+        isTrue,
+      );
     });
 
     test('devrait effacer les filtres', () {
       // Arrange
       final products = [
-        Product(id: 1, title: 'Product 1', price: 10.0, description: 'Desc 1', category: 'cat1', thumbnail: 'img1.jpg', images: ['img1.jpg']),
-        Product(id: 2, title: 'Product 2', price: 20.0, description: 'Desc 2', category: 'cat2', thumbnail: 'img2.jpg', images: ['img2.jpg']),
+        Product(
+          id: 1,
+          title: 'Product 1',
+          price: 10.0,
+          description: 'Desc 1',
+          category: 'cat1',
+          thumbnail: 'img1.jpg',
+          images: ['img1.jpg'],
+        ),
+        Product(
+          id: 2,
+          title: 'Product 2',
+          price: 20.0,
+          description: 'Desc 2',
+          category: 'cat2',
+          thumbnail: 'img2.jpg',
+          images: ['img2.jpg'],
+        ),
       ];
 
       catalogVm.state = catalogVm.state.copyWith(products: products);

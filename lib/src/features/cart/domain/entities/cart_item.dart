@@ -14,8 +14,13 @@ class CartItem {
     required this.thumbnail,
   });
 
-  CartItem copyWith({int? qty}) =>
-      CartItem(productId: productId, title: title, price: price, qty: qty ?? this.qty, thumbnail: thumbnail);
+  CartItem copyWith({int? qty}) => CartItem(
+    productId: productId,
+    title: title,
+    price: price,
+    qty: qty ?? this.qty,
+    thumbnail: thumbnail,
+  );
 
   double get lineTotal => price * qty;
 }

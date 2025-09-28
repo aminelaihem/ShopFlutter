@@ -20,13 +20,15 @@ class CartVm extends StateNotifier<AsyncValue<List<CartItem>>> {
 
   Future<void> addFromProductId(int id, {int qty = 1}) async {
     final p = await _fetch(id);
-    await _repo.add(CartItem(
-      productId: p.id,
-      title: p.title,
-      price: p.price,
-      qty: qty,
-      thumbnail: p.thumbnail,
-    ));
+    await _repo.add(
+      CartItem(
+        productId: p.id,
+        title: p.title,
+        price: p.price,
+        qty: qty,
+        thumbnail: p.thumbnail,
+      ),
+    );
   }
 
   Future<void> setQty(int id, int qty) => _repo.updateQty(id, qty);
@@ -40,8 +42,9 @@ class CartVm extends StateNotifier<AsyncValue<List<CartItem>>> {
   }
 }
 
-final cartVmProvider = StateNotifierProvider<CartVm, AsyncValue<List<CartItem>>>((ref) {
-  final repo = ref.watch(cartRepositoryProvider);
-  final fetch = ref.watch(fetchProductProvider);
-  return CartVm(repo, fetch);
-});
+final cartVmProvider =
+    StateNotifierProvider<CartVm, AsyncValue<List<CartItem>>>((ref) {
+      final repo = ref.watch(cartRepositoryProvider);
+      final fetch = ref.watch(fetchProductProvider);
+      return CartVm(repo, fetch);
+    });

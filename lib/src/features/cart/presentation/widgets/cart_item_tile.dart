@@ -35,10 +35,7 @@ class CartItemTile extends StatelessWidget {
                 height: 80,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF6366F1),
-                      Color(0xFF8B5CF6),
-                    ],
+                    colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
                   ),
                 ),
                 child: const Center(
@@ -53,10 +50,7 @@ class CartItemTile extends StatelessWidget {
                 height: 80,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF6366F1),
-                      Color(0xFF8B5CF6),
-                    ],
+                    colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
                   ),
                 ),
                 child: const Center(
@@ -69,9 +63,9 @@ class CartItemTile extends StatelessWidget {
               ),
             ),
           ),
-          
+
           const SizedBox(width: 16),
-          
+
           // Informations du produit
           Expanded(
             child: Column(
@@ -97,7 +91,7 @@ class CartItemTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Contrôles de quantité et suppression
                 Row(
                   children: [
@@ -111,13 +105,25 @@ class CartItemTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: item.qty > 1 ? () => onQtyChanged(item.qty - 1) : null,
-                            icon: const Icon(Icons.remove_rounded, color: Color(0xFF6366F1), size: 20),
-                            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                            onPressed: item.qty > 1
+                                ? () => onQtyChanged(item.qty - 1)
+                                : null,
+                            icon: const Icon(
+                              Icons.remove_rounded,
+                              color: Color(0xFF6366F1),
+                              size: 20,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                            ),
                             padding: EdgeInsets.zero,
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
                             child: Text(
                               '${item.qty}',
                               style: const TextStyle(
@@ -128,16 +134,23 @@ class CartItemTile extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () => onQtyChanged(item.qty + 1),
-                            icon: const Icon(Icons.add_rounded, color: Color(0xFF6366F1), size: 20),
-                            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                            icon: const Icon(
+                              Icons.add_rounded,
+                              color: Color(0xFF6366F1),
+                              size: 20,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 32,
+                              minHeight: 32,
+                            ),
                             padding: EdgeInsets.zero,
                           ),
                         ],
                       ),
                     ),
-                    
+
                     const Spacer(),
-                    
+
                     // Bouton de suppression
                     Container(
                       decoration: BoxDecoration(
@@ -146,8 +159,15 @@ class CartItemTile extends StatelessWidget {
                       ),
                       child: IconButton(
                         onPressed: onRemove,
-                        icon: const Icon(Icons.delete_outline_rounded, color: Colors.red, size: 20),
-                        constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                        icon: const Icon(
+                          Icons.delete_outline_rounded,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 32,
+                          minHeight: 32,
+                        ),
                         padding: EdgeInsets.zero,
                       ),
                     ),

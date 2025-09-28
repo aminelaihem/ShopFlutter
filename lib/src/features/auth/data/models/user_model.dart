@@ -9,11 +9,9 @@ class UserModel {
 
   const UserModel({required this.id, this.email, this.displayName});
 
-  factory UserModel.fromFirebaseUser(User u) => UserModel(
-    id: u.uid,
-    email: u.email,
-    displayName: u.displayName,
-  );
+  factory UserModel.fromFirebaseUser(User u) =>
+      UserModel(id: u.uid, email: u.email, displayName: u.displayName);
 
-  UserEntity toEntity() => UserEntity(id: id, email: email, displayName: displayName);
+  UserEntity toEntity() =>
+      UserEntity(id: id, email: email, displayName: displayName);
 }

@@ -145,10 +145,7 @@ class _TestCardSelectorState extends State<TestCardSelector> {
           const SizedBox(height: 8),
           Text(
             'Sélectionnez une carte de test pour simuler le paiement',
-            style: TextStyle(
-              fontSize: 14,
-              color: const Color(0xFF6B7280),
-            ),
+            style: TextStyle(fontSize: 14, color: const Color(0xFF6B7280)),
           ),
           const SizedBox(height: 20),
           ..._testCards.map((card) => _buildCardOption(card)),
@@ -159,7 +156,7 @@ class _TestCardSelectorState extends State<TestCardSelector> {
 
   Widget _buildCardOption(TestCard card) {
     final isSelected = _selectedCard?.name == card.name;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
@@ -173,12 +170,12 @@ class _TestCardSelectorState extends State<TestCardSelector> {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: isSelected 
+            color: isSelected
                 ? const Color(0xFF3B82F6).withValues(alpha: 0.1)
                 : const Color(0xFFF9FAFB),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected 
+              color: isSelected
                   ? const Color(0xFF3B82F6)
                   : const Color(0xFFE5E7EB),
               width: isSelected ? 2 : 1,
@@ -214,7 +211,7 @@ class _TestCardSelectorState extends State<TestCardSelector> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: isSelected 
+                        color: isSelected
                             ? const Color(0xFF3B82F6)
                             : const Color(0xFF111827),
                       ),
@@ -224,7 +221,7 @@ class _TestCardSelectorState extends State<TestCardSelector> {
                       card.description,
                       style: TextStyle(
                         fontSize: 12,
-                        color: isSelected 
+                        color: isSelected
                             ? const Color(0xFF3B82F6).withValues(alpha: 0.8)
                             : const Color(0xFF6B7280),
                       ),

@@ -62,10 +62,10 @@ echo [SUCCESS] Dépendances récupérées
 REM Vérification du formatage
 echo [INFO] Étape 3/8: Vérification du formatage
 if "%FIX_ISSUES%"=="true" (
-    flutter format .
+    dart format .
     echo [INFO] Code reformaté automatiquement
 ) else (
-    flutter format --set-exit-if-changed
+    dart format --set-exit-if-changed .
     if %errorlevel% neq 0 (
         echo [ERROR] Le code n'est pas correctement formaté
         echo [INFO] Exécutez avec --fix pour corriger automatiquement

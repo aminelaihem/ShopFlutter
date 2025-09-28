@@ -31,10 +31,10 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
 
     _animationController.forward();
   }
@@ -61,15 +61,14 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xFF6366F1),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       'Chargement de vos commandes...',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 16),
                     ),
                   ],
                 ),
@@ -97,10 +96,7 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
                     const SizedBox(height: 8),
                     Text(
                       e.toString(),
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -109,9 +105,7 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
             ),
             data: (orders) {
               if (orders.isEmpty) {
-                return SliverFillRemaining(
-                  child: _buildEmptyState(),
-                );
+                return SliverFillRemaining(child: _buildEmptyState());
               }
               return _buildOrdersList(orders);
             },
@@ -143,7 +137,10 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
               ),
             ],
           ),
-          child: const Icon(Icons.arrow_back_ios_rounded, color: Color(0xFF6366F1)),
+          child: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Color(0xFF6366F1),
+          ),
         ),
         onPressed: () {
           if (context.canPop()) {
@@ -179,10 +176,7 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF6366F1),
-                Color(0xFF8B5CF6),
-              ],
+              colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
             ),
           ),
         ),
@@ -240,7 +234,10 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6366F1),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -256,21 +253,23 @@ class _OrdersPageState extends ConsumerState<OrdersPage>
 
   Widget _buildOrdersList(List<OrderEntity> orders) {
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 40), // Ajout de marge en bas
+      padding: const EdgeInsets.fromLTRB(
+        20,
+        20,
+        20,
+        40,
+      ), // Ajout de marge en bas
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final order = orders[index];
-            return FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: _OrderCard(order: order),
-              ),
-            );
-          },
-          childCount: orders.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final order = orders[index];
+          return FadeTransition(
+            opacity: _fadeAnimation,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: _OrderCard(order: order),
+            ),
+          );
+        }, childCount: orders.length),
       ),
     );
   }
@@ -284,7 +283,7 @@ class _OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final count = order.items.fold<int>(0, (a, e) => a + e.qty);
     final status = _getOrderStatus(order);
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -315,7 +314,10 @@ class _OrderCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: status.color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
@@ -342,24 +344,14 @@ class _OrderCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   '$count article${count > 1 ? 's' : ''}',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
                 ),
                 const SizedBox(width: 16),
-                Icon(
-                  Icons.access_time,
-                  size: 16,
-                  color: Colors.grey[600],
-                ),
+                Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
                 const SizedBox(width: 8),
                 Text(
                   _formatDate(order.createdAt),
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
-                  ),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
                 ),
               ],
             ),
@@ -369,10 +361,7 @@ class _OrderCard extends StatelessWidget {
               children: [
                 Text(
                   'Total',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[700],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                 ),
                 Text(
                   formatPrice(order.total),
@@ -395,7 +384,7 @@ class _OrderCard extends StatelessWidget {
     final now = DateTime.now();
     final orderDate = order.createdAt;
     final daysDiff = now.difference(orderDate).inDays;
-    
+
     if (daysDiff < 1) {
       return _OrderStatus('En cours', const Color(0xFFF59E0B));
     } else if (daysDiff < 3) {
@@ -408,7 +397,7 @@ class _OrderCard extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final diff = now.difference(date);
-    
+
     if (diff.inDays == 0) {
       return 'Aujourd\'hui';
     } else if (diff.inDays == 1) {
@@ -424,6 +413,6 @@ class _OrderCard extends StatelessWidget {
 class _OrderStatus {
   final String text;
   final Color color;
-  
+
   _OrderStatus(this.text, this.color);
 }

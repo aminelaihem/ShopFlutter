@@ -5,21 +5,30 @@ import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseAuthDataSource {
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
-  
+
   FirebaseAuthDataSource(this._auth, this._googleSignIn);
 
   Future<User> signIn(String email, String password) async {
     print('🔐 Tentative de connexion avec: $email');
     try {
-      final cred = await _auth.signInWithEmailAndPassword(email: email, password: password).timeout(
-        const Duration(seconds: 30),
-        onTimeout: () {
-          throw FirebaseAuthException(code: 'timeout', message: 'Timeout de connexion');
-        },
-      );
+      final cred = await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .timeout(
+            const Duration(seconds: 30),
+            onTimeout: () {
+              throw FirebaseAuthException(
+                code: 'timeout',
+                message: 'Timeout de connexion',
+              );
+            },
+          );
       print('✅ Connexion réussie: ${cred.user?.email}');
       final user = cred.user;
-      if (user == null) throw FirebaseAuthException(code: 'user-null', message: 'Utilisateur introuvable.');
+      if (user == null)
+        throw FirebaseAuthException(
+          code: 'user-null',
+          message: 'Utilisateur introuvable.',
+        );
       return user;
     } catch (e) {
       print('❌ Erreur de connexion: $e');
@@ -28,17 +37,21 @@ class FirebaseAuthDataSource {
   }
 
   Future<User> register(String email, String password) async {
-    final cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    final cred = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     final user = cred.user;
-    if (user == null) throw FirebaseAuthException(code: 'user-null', message: 'Utilisateur introuvable.');
+    if (user == null)
+      throw FirebaseAuthException(
+        code: 'user-null',
+        message: 'Utilisateur introuvable.',
+      );
     return user;
   }
 
   Future<void> signOut() async {
-    await Future.wait([
-      _auth.signOut(),
-      _googleSignIn.signOut(),
-    ]);
+    await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
   }
 
   Stream<User?> watchAuthState() => _auth.authStateChanges();
@@ -49,16 +62,17 @@ class FirebaseAuthDataSource {
     try {
       // Déclencher le flux d'authentification Google
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      
+
       if (googleUser == null) {
         throw FirebaseAuthException(
-          code: 'sign-in-cancelled', 
-          message: 'Connexion Google annulée par l\'utilisateur'
+          code: 'sign-in-cancelled',
+          message: 'Connexion Google annulée par l\'utilisateur',
         );
       }
 
       // Obtenir les détails d'authentification
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       // Créer un nouveau credential
       final credential = GoogleAuthProvider.credential(
@@ -69,11 +83,14 @@ class FirebaseAuthDataSource {
       // Une fois connecté, retourner l'utilisateur
       final userCredential = await _auth.signInWithCredential(credential);
       final user = userCredential.user;
-      
+
       if (user == null) {
-        throw FirebaseAuthException(code: 'user-null', message: 'Utilisateur introuvable.');
+        throw FirebaseAuthException(
+          code: 'user-null',
+          message: 'Utilisateur introuvable.',
+        );
       }
-      
+
       print('✅ Connexion Google réussie: ${user.email}');
       return user;
     } catch (e) {

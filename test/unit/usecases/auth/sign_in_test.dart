@@ -19,26 +19,32 @@ void main() {
       signInUseCase = SignIn(mockRepository);
     });
 
-    test('devrait retourner un utilisateur quand la connexion réussit', () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = 'password123';
-      const expectedUser = UserEntity(
-        id: '1',
-        email: 'test@example.com',
-        displayName: 'Test User',
-      );
+    test(
+      'devrait retourner un utilisateur quand la connexion réussit',
+      () async {
+        // Arrange
+        const email = 'test@example.com';
+        const password = 'password123';
+        const expectedUser = UserEntity(
+          id: '1',
+          email: 'test@example.com',
+          displayName: 'Test User',
+        );
 
-      when(mockRepository.signIn(email: email, password: password))
-          .thenAnswer((_) async => expectedUser);
+        when(
+          mockRepository.signIn(email: email, password: password),
+        ).thenAnswer((_) async => expectedUser);
 
-      // Act
-      final result = await signInUseCase(email, password);
+        // Act
+        final result = await signInUseCase(email, password);
 
-      // Assert
-      expect(result, equals(expectedUser));
-      verify(mockRepository.signIn(email: email, password: password)).called(1);
-    });
+        // Assert
+        expect(result, equals(expectedUser));
+        verify(
+          mockRepository.signIn(email: email, password: password),
+        ).called(1);
+      },
+    );
 
     test('devrait lancer une exception quand l\'email est vide', () async {
       // Arrange
@@ -53,31 +59,37 @@ void main() {
       verifyNever(mockRepository.signIn(email: email, password: password));
     });
 
-    test('devrait lancer une exception quand le mot de passe est vide', () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = '';
+    test(
+      'devrait lancer une exception quand le mot de passe est vide',
+      () async {
+        // Arrange
+        const email = 'test@example.com';
+        const password = '';
 
-      // Act & Assert
-      expect(
-        () => signInUseCase(email, password),
-        throwsA(isA<AuthException>()),
-      );
-      verifyNever(mockRepository.signIn(email: email, password: password));
-    });
+        // Act & Assert
+        expect(
+          () => signInUseCase(email, password),
+          throwsA(isA<AuthException>()),
+        );
+        verifyNever(mockRepository.signIn(email: email, password: password));
+      },
+    );
 
-    test('devrait lancer une exception quand l\'email ne contient que des espaces', () async {
-      // Arrange
-      const email = '   ';
-      const password = 'password123';
+    test(
+      'devrait lancer une exception quand l\'email ne contient que des espaces',
+      () async {
+        // Arrange
+        const email = '   ';
+        const password = 'password123';
 
-      // Act & Assert
-      expect(
-        () => signInUseCase(email, password),
-        throwsA(isA<AuthException>()),
-      );
-      verifyNever(mockRepository.signIn(email: email, password: password));
-    });
+        // Act & Assert
+        expect(
+          () => signInUseCase(email, password),
+          throwsA(isA<AuthException>()),
+        );
+        verifyNever(mockRepository.signIn(email: email, password: password));
+      },
+    );
 
     test('devrait propager l\'exception du repository', () async {
       // Arrange
@@ -85,8 +97,9 @@ void main() {
       const password = 'password123';
       const errorMessage = 'Utilisateur introuvable.';
 
-      when(mockRepository.signIn(email: email, password: password))
-          .thenThrow(AuthException('user-not-found', errorMessage));
+      when(
+        mockRepository.signIn(email: email, password: password),
+      ).thenThrow(AuthException('user-not-found', errorMessage));
 
       // Act & Assert
       expect(
@@ -95,20 +108,26 @@ void main() {
       );
     });
 
-    test('devrait trimmer l\'email avant de l\'envoyer au repository', () async {
-      // Arrange
-      const email = '  test@example.com  ';
-      const password = 'password123';
-      const expectedUser = UserEntity(id: '1', email: 'test@example.com');
+    test(
+      'devrait trimmer l\'email avant de l\'envoyer au repository',
+      () async {
+        // Arrange
+        const email = '  test@example.com  ';
+        const password = 'password123';
+        const expectedUser = UserEntity(id: '1', email: 'test@example.com');
 
-      when(mockRepository.signIn(email: 'test@example.com', password: password))
-          .thenAnswer((_) async => expectedUser);
+        when(
+          mockRepository.signIn(email: 'test@example.com', password: password),
+        ).thenAnswer((_) async => expectedUser);
 
-      // Act
-      await signInUseCase(email, password);
+        // Act
+        await signInUseCase(email, password);
 
-      // Assert
-      verify(mockRepository.signIn(email: 'test@example.com', password: password)).called(1);
-    });
+        // Assert
+        verify(
+          mockRepository.signIn(email: 'test@example.com', password: password),
+        ).called(1);
+      },
+    );
   });
 }

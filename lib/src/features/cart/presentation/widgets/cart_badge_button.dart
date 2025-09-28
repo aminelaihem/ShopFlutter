@@ -10,10 +10,9 @@ class CartBadgeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(cartCountProvider).maybeWhen(
-      data: (v) => v,
-      orElse: () => 0,
-    );
+    final count = ref
+        .watch(cartCountProvider)
+        .maybeWhen(data: (v) => v, orElse: () => 0);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -33,7 +32,10 @@ class CartBadgeButton extends ConsumerWidget {
                 color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(999),
               ),
-              child: Text('$count', style: const TextStyle(color: Colors.white, fontSize: 11)),
+              child: Text(
+                '$count',
+                style: const TextStyle(color: Colors.white, fontSize: 11),
+              ),
             ),
           ),
       ],

@@ -46,13 +46,15 @@ class OrderRepositoryImpl implements OrderRepository {
   Future<void> _write(List<OrderEntity> orders) async {
     final list = orders.map((o) {
       final items = o.items
-          .map((e) => {
-        'productId': e.productId,
-        'title': e.title,
-        'price': e.price,
-        'qty': e.qty,
-        'thumbnail': e.thumbnail,
-      })
+          .map(
+            (e) => {
+              'productId': e.productId,
+              'title': e.title,
+              'price': e.price,
+              'qty': e.qty,
+              'thumbnail': e.thumbnail,
+            },
+          )
           .toList();
       return {
         'id': o.id,

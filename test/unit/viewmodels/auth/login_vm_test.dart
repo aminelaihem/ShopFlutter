@@ -84,8 +84,9 @@ void main() {
       loginVm.setEmail(email);
       loginVm.setPassword(password);
 
-      when(mockSignIn(email, password))
-          .thenThrow(AuthException('wrong-password', errorMessage));
+      when(
+        mockSignIn(email, password),
+      ).thenThrow(AuthException('wrong-password', errorMessage));
 
       // Act
       final result = await loginVm.signIn();
@@ -117,30 +118,35 @@ void main() {
       expect(loginVm.state.isLoading, equals(false));
     });
 
-    test('devrait effacer l\'erreur précédente lors d\'une nouvelle tentative', () async {
-      // Arrange
-      const email = 'test@example.com';
-      const password = 'password123';
+    test(
+      'devrait effacer l\'erreur précédente lors d\'une nouvelle tentative',
+      () async {
+        // Arrange
+        const email = 'test@example.com';
+        const password = 'password123';
 
-      loginVm.setEmail(email);
-      loginVm.setPassword(password);
+        loginVm.setEmail(email);
+        loginVm.setPassword(password);
 
-      // Simuler une première erreur
-      when(mockSignIn(email, password))
-          .thenThrow(AuthException('network-error', 'Erreur réseau'));
+        // Simuler une première erreur
+        when(
+          mockSignIn(email, password),
+        ).thenThrow(AuthException('network-error', 'Erreur réseau'));
 
-      await loginVm.signIn();
-      expect(loginVm.state.error, isNotNull);
+        await loginVm.signIn();
+        expect(loginVm.state.error, isNotNull);
 
-      // Simuler un succès la deuxième fois
-      when(mockSignIn(email, password))
-          .thenAnswer((_) async => const UserEntity(id: '1', email: 'test@example.com'));
+        // Simuler un succès la deuxième fois
+        when(mockSignIn(email, password)).thenAnswer(
+          (_) async => const UserEntity(id: '1', email: 'test@example.com'),
+        );
 
-      // Act
-      await loginVm.signIn();
+        // Act
+        await loginVm.signIn();
 
-      // Assert
-      expect(loginVm.state.error, isNull);
-    });
+        // Assert
+        expect(loginVm.state.error, isNull);
+      },
+    );
   });
 }

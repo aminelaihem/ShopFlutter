@@ -3,7 +3,13 @@ import 'test_card_selector.dart';
 
 class CreditCardForm extends StatefulWidget {
   final TestCard? selectedTestCard;
-  final Function(String cardNumber, String expiryMonth, String expiryYear, String cvc) onCardChanged;
+  final Function(
+    String cardNumber,
+    String expiryMonth,
+    String expiryYear,
+    String cvc,
+  )
+  onCardChanged;
   final Function(bool isValid) onValidationChanged;
 
   const CreditCardForm({
@@ -22,12 +28,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
   final _expiryMonthController = TextEditingController();
   final _expiryYearController = TextEditingController();
   final _cvcController = TextEditingController();
-  
+
   final _cardNumberFocus = FocusNode();
   final _expiryMonthFocus = FocusNode();
   final _expiryYearFocus = FocusNode();
   final _cvcFocus = FocusNode();
-  
+
   String _cardBrand = '';
 
   @override
@@ -43,7 +49,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
   @override
   void didUpdateWidget(CreditCardForm oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.selectedTestCard != oldWidget.selectedTestCard && widget.selectedTestCard != null) {
+    if (widget.selectedTestCard != oldWidget.selectedTestCard &&
+        widget.selectedTestCard != null) {
       _fillTestCard(widget.selectedTestCard!);
     }
   }
@@ -54,7 +61,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _expiryYearController.text = card.expiryYear;
     _cvcController.text = card.cvc;
     _cardBrand = card.brand;
-    
+
     // Différer l'appel pour éviter setState pendant la phase de build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _notifyCardChanged();
@@ -68,7 +75,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       _expiryYearController.text,
       _cvcController.text,
     );
-    
+
     // Différer la validation pour éviter setState pendant la phase de build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _validateCard();
@@ -87,8 +94,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
     final cvc = _cvcController.text;
 
     if (cardNumber.length < 13 || cardNumber.length > 19) return false;
-    if (expiryMonth.length != 2 || int.tryParse(expiryMonth) == null) return false;
-    if (expiryYear.length != 2 || int.tryParse(expiryYear) == null) return false;
+    if (expiryMonth.length != 2 || int.tryParse(expiryMonth) == null)
+      return false;
+    if (expiryYear.length != 2 || int.tryParse(expiryYear) == null)
+      return false;
     if (cvc.length < 3 || cvc.length > 4) return false;
 
     return true;
@@ -100,7 +109,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _expiryMonthController.dispose();
     _expiryYearController.dispose();
     _cvcController.dispose();
-    
+
     _cardNumberFocus.dispose();
     _expiryMonthFocus.dispose();
     _expiryYearFocus.dispose();
@@ -134,9 +143,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
           },
           prefixIcon: _getCardIcon(),
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // Date d'expiration et CVC
         Row(
           children: [
@@ -254,7 +263,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
             ),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
             counterText: '',
           ),
         ),
@@ -278,13 +290,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
   String _formatCardNumber(String value) {
     // Supprimer tous les espaces
     final cleaned = value.replaceAll(' ', '');
-    
+
     // Ajouter des espaces tous les 4 caractères
-    final formatted = cleaned.replaceAllMapped(
-      RegExp(r'.{4}'),
-      (match) => '${match.group(0)} ',
-    ).trim();
-    
+    final formatted = cleaned
+        .replaceAllMapped(RegExp(r'.{4}'), (match) => '${match.group(0)} ')
+        .trim();
+
     return formatted;
   }
 }

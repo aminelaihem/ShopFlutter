@@ -10,7 +10,10 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._ds);
 
   @override
-  Future<UserEntity> signIn({required String email, required String password}) async {
+  Future<UserEntity> signIn({
+    required String email,
+    required String password,
+  }) async {
     try {
       final u = await _ds.signIn(email, password);
       return UserModel.fromFirebaseUser(u).toEntity();
@@ -20,7 +23,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> register({required String email, required String password}) async {
+  Future<UserEntity> register({
+    required String email,
+    required String password,
+  }) async {
     try {
       final u = await _ds.register(email, password);
       return UserModel.fromFirebaseUser(u).toEntity();
@@ -53,8 +59,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOut() => _ds.signOut();
 
   @override
-  Stream<UserEntity?> watchAuthState() =>
-      _ds.watchAuthState().map((u) => u == null ? null : UserModel.fromFirebaseUser(u).toEntity());
+  Stream<UserEntity?> watchAuthState() => _ds.watchAuthState().map(
+    (u) => u == null ? null : UserModel.fromFirebaseUser(u).toEntity(),
+  );
 
   String _mapCodeToMsg(FirebaseAuthException e) {
     switch (e.code) {

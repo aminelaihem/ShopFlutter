@@ -14,8 +14,12 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider).asData?.value;
-    final cartCount = ref.watch(cartCountProvider).maybeWhen(data: (v) => v, orElse: () => 0);
-    final orders = ref.watch(ordersStreamProvider).maybeWhen(data: (v) => v, orElse: () => const []);
+    final cartCount = ref
+        .watch(cartCountProvider)
+        .maybeWhen(data: (v) => v, orElse: () => 0);
+    final orders = ref
+        .watch(ordersStreamProvider)
+        .maybeWhen(data: (v) => v, orElse: () => const []);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -53,28 +57,25 @@ class ProfilePage extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           // Header avec infos utilisateur
-          SliverToBoxAdapter(
-            child: _ProfileHeader(session: session),
-          ),
+          SliverToBoxAdapter(child: _ProfileHeader(session: session)),
 
           // Stats rapides
           SliverToBoxAdapter(
             child: _ProfileStats(
               cartCount: cartCount,
               ordersCount: orders.length,
-              totalSpent: orders.fold<double>(0, (sum, order) => sum + order.total),
+              totalSpent: orders.fold<double>(
+                0,
+                (sum, order) => sum + order.total,
+              ),
             ),
           ),
 
           // Sections du profil
-          SliverToBoxAdapter(
-            child: _ProfileSections(),
-          ),
+          SliverToBoxAdapter(child: _ProfileSections()),
 
           // Espace en bas
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 100),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );
@@ -268,10 +269,7 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0xFF64748B),
-            ),
+            style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             textAlign: TextAlign.center,
           ),
         ],
@@ -412,10 +410,7 @@ class _ProfileSections extends StatelessWidget {
 }
 
 class _ProfileSection extends StatelessWidget {
-  const _ProfileSection({
-    required this.title,
-    required this.items,
-  });
+  const _ProfileSection({required this.title, required this.items});
 
   final String title;
   final List<_ProfileItem> items;

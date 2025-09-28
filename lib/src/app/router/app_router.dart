@@ -39,18 +39,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: GoRouterRefreshStream(sessionStream),
     redirect: (context, state) {
       final session = ref.read(sessionProvider);
-      final isLoggedIn = session.maybeWhen(data: (u) => u != null, orElse: () => false);
+      final isLoggedIn = session.maybeWhen(
+        data: (u) => u != null,
+        orElse: () => false,
+      );
       final currentPath = state.uri.path;
-      final isAuthRoute = currentPath == AppRoutes.login || currentPath == AppRoutes.register;
+      final isAuthRoute =
+          currentPath == AppRoutes.login || currentPath == AppRoutes.register;
 
       if (!isLoggedIn && !isAuthRoute) return AppRoutes.login;
-      if (isLoggedIn && isAuthRoute) return AppRoutes.home; // après login, va sur Home
+      if (isLoggedIn && isAuthRoute)
+        return AppRoutes.home; // après login, va sur Home
       return null;
     },
     routes: [
       // routes publiques
-      GoRoute(path: AppRoutes.login, name: 'login', builder: (_, __) => const LoginPage()),
-      GoRoute(path: AppRoutes.register, name: 'register', builder: (_, __) => const RegisterPage()),
+      GoRoute(
+        path: AppRoutes.login,
+        name: 'login',
+        builder: (_, __) => const LoginPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.register,
+        name: 'register',
+        builder: (_, __) => const RegisterPage(),
+      ),
       GoRoute(
         path: AppRoutes.profile,
         name: 'profile',
@@ -58,24 +71,47 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
 
       // home
-      GoRoute(path: AppRoutes.home, name: 'home', builder: (_, __) => const HomePage()),
+      GoRoute(
+        path: AppRoutes.home,
+        name: 'home',
+        builder: (_, __) => const HomePage(),
+      ),
 
       // catalog
-      GoRoute(path: AppRoutes.catalog, name: 'catalog', builder: (_, __) => const CatalogPage()),
+      GoRoute(
+        path: AppRoutes.catalog,
+        name: 'catalog',
+        builder: (_, __) => const CatalogPage(),
+      ),
       GoRoute(
         path: '/product/:id',
         name: 'product',
         builder: (_, state) {
           final id = int.tryParse(state.pathParameters['id'] ?? '');
-          if (id == null) return const Scaffold(body: Center(child: Text('Produit invalide')));
+          if (id == null)
+            return const Scaffold(
+              body: Center(child: Text('Produit invalide')),
+            );
           return ProductDetailPage(id: id);
         },
       ),
 
       // cart / checkout / orders
-      GoRoute(path: AppRoutes.cart, name: 'cart', builder: (_, __) => const CartPage()),
-      GoRoute(path: AppRoutes.checkout, name: 'checkout', builder: (_, __) => const CheckoutPage()),
-      GoRoute(path: AppRoutes.orders, name: 'orders', builder: (_, __) => const OrdersPage()),
+      GoRoute(
+        path: AppRoutes.cart,
+        name: 'cart',
+        builder: (_, __) => const CartPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.checkout,
+        name: 'checkout',
+        builder: (_, __) => const CheckoutPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.orders,
+        name: 'orders',
+        builder: (_, __) => const OrdersPage(),
+      ),
     ],
   );
 });

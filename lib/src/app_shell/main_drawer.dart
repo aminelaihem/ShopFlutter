@@ -13,7 +13,9 @@ class MainDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider).asData?.value;
-    final count = ref.watch(cartCountProvider).maybeWhen(data: (v) => v, orElse: () => 0);
+    final count = ref
+        .watch(cartCountProvider)
+        .maybeWhen(data: (v) => v, orElse: () => 0);
 
     return Drawer(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -59,7 +61,8 @@ class MainDrawer extends ConsumerWidget {
                             radius: 20,
                             backgroundColor: Colors.white,
                             child: Text(
-                              (session?.email?.characters.first.toUpperCase() ?? 'S'),
+                              (session?.email?.characters.first.toUpperCase() ??
+                                  'S'),
                               style: const TextStyle(
                                 color: Color(0xFF6366F1),
                                 fontWeight: FontWeight.bold,
@@ -168,10 +171,7 @@ class MainDrawer extends ConsumerWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
-                top: BorderSide(
-                  color: const Color(0xFFE5E7EB),
-                  width: 1,
-                ),
+                top: BorderSide(color: const Color(0xFFE5E7EB), width: 1),
               ),
             ),
             child: _DrawerItem(
@@ -307,7 +307,9 @@ class _DrawerItem extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: isDestructive ? const Color(0xFFEF4444) : const Color(0xFF1E293B),
+                          color: isDestructive
+                              ? const Color(0xFFEF4444)
+                              : const Color(0xFF1E293B),
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -325,7 +327,10 @@ class _DrawerItem extends StatelessWidget {
                 // Badge si présent
                 if (badge != null && badge! > 0)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEF4444),
                       borderRadius: BorderRadius.circular(12),

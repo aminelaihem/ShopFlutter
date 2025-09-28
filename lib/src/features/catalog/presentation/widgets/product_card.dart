@@ -27,12 +27,16 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
                 child: CachedNetworkImage(
                   imageUrl: product.thumbnail,
                   fit: BoxFit.cover,
-                  placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
-                  errorWidget: (_, __, ___) => const Icon(Icons.image_not_supported_outlined),
+                  placeholder: (_, __) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (_, __, ___) =>
+                      const Icon(Icons.image_not_supported_outlined),
                 ),
               ),
             ),
@@ -41,7 +45,11 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     formatPrice(product.price),

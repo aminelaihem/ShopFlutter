@@ -23,10 +23,10 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-  
+
   final PageController _pageController = PageController();
   int _currentStep = 0;
-  
+
   // Stripe
   TestCard? _selectedTestCard;
   String _cardNumber = '';
@@ -60,11 +60,11 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
-    
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
 
     _animationController.forward();
   }
@@ -102,7 +102,10 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             ],
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF6366F1)),
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFF6366F1),
+            ),
             onPressed: () => context.pop(),
           ),
         ),
@@ -118,9 +121,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             ),
             Text(
               'Finalisez votre commande',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
             ),
           ],
         ),
@@ -132,7 +135,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
           if (items.isEmpty) {
             return _buildEmptyState();
           }
-          
+
           final total = items.fold<double>(0, (a, e) => a + e.price * e.qty);
           final isDisabled = state.loading || items.isEmpty;
 
@@ -140,7 +143,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             children: [
               // Indicateur de progression
               _buildProgressIndicator(),
-              
+
               // Contenu principal
               Expanded(
                 child: PageView(
@@ -225,10 +228,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
           const SizedBox(height: 8),
           Text(
             error,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -270,10 +270,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
               const SizedBox(height: 8),
               Text(
                 'Ajoutez des articles pour continuer',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -282,17 +279,17 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6366F1),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: const Text(
                   'Retour au panier',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -320,7 +317,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
   Widget _buildProgressStep(int step, String title, IconData icon) {
     final isActive = _currentStep >= step;
     final isCurrent = _currentStep == step;
-    
+
     return Expanded(
       child: Column(
         children: [
@@ -330,13 +327,15 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             decoration: BoxDecoration(
               color: isActive ? const Color(0xFF6366F1) : Colors.grey[300],
               borderRadius: BorderRadius.circular(20),
-              boxShadow: isCurrent ? [
-                BoxShadow(
-                  color: const Color(0xFF6366F1).withValues(alpha: 0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ] : null,
+              boxShadow: isCurrent
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFF6366F1).withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
             ),
             child: Icon(
               icon,
@@ -377,81 +376,80 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             SliverPadding(
               padding: const EdgeInsets.all(16),
               sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final item = items[index];
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final item = items[index];
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: const Color(
+                              0xFF6366F1,
+                            ).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF6366F1).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.shopping_bag_rounded,
-                              color: Color(0xFF6366F1),
-                              size: 24,
-                            ),
+                          child: const Icon(
+                            Icons.shopping_bag_rounded,
+                            color: Color(0xFF6366F1),
+                            size: 24,
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey,
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '${item.qty} × ${MoneyFormatter.format(item.price)}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${item.qty} × ${MoneyFormatter.format(item.price)}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            MoneyFormatter.format(item.lineTotal),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6366F1),
-                            ),
+                        ),
+                        Text(
+                          MoneyFormatter.format(item.lineTotal),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6366F1),
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                  childCount: items.length,
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                }, childCount: items.length),
               ),
             ),
-            
+
             // Total
             SliverToBoxAdapter(
               child: Container(
@@ -491,7 +489,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                 ),
               ),
             ),
-            
+
             // Bouton suivant
             SliverToBoxAdapter(
               child: Padding(
@@ -568,7 +566,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                                color: const Color(
+                                  0xFF6366F1,
+                                ).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -589,7 +589,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                           ],
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Champs du formulaire
                         _buildFormField(
                           label: 'Nom complet',
@@ -599,7 +599,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                           value: state.fullName,
                         ),
                         const SizedBox(height: 16),
-                        
+
                         _buildFormField(
                           label: 'Adresse',
                           hint: 'Entrez votre adresse complète',
@@ -608,7 +608,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                           value: state.address,
                         ),
                         const SizedBox(height: 16),
-                        
+
                         Row(
                           children: [
                             Expanded(
@@ -638,7 +638,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                 ]),
               ),
             ),
-            
+
             // Boutons de navigation
             SliverToBoxAdapter(
               child: Padding(
@@ -709,7 +709,12 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
     );
   }
 
-  Widget _buildPaymentForm(dynamic vm, dynamic state, double total, bool isDisabled) {
+  Widget _buildPaymentForm(
+    dynamic vm,
+    dynamic state,
+    double total,
+    bool isDisabled,
+  ) {
     return FadeTransition(
       opacity: _fadeAnimation,
       child: SlideTransition(
@@ -742,7 +747,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                                color: const Color(
+                                  0xFF6366F1,
+                                ).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -763,12 +770,14 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                           ],
                         ),
                         const SizedBox(height: 20),
-                        
+
                         // Total
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                            color: const Color(
+                              0xFF6366F1,
+                            ).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -793,9 +802,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                             ],
                           ),
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Sélecteur de carte de test
                         TestCardSelector(
                           selectedCard: _selectedTestCard,
@@ -805,20 +814,21 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                             });
                           },
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // Formulaire de carte de crédit
                         CreditCardForm(
                           selectedTestCard: _selectedTestCard,
-                          onCardChanged: (cardNumber, expiryMonth, expiryYear, cvc) {
-                            setState(() {
-                              _cardNumber = cardNumber;
-                              _expiryMonth = expiryMonth;
-                              _expiryYear = expiryYear;
-                              _cvc = cvc;
-                            });
-                          },
+                          onCardChanged:
+                              (cardNumber, expiryMonth, expiryYear, cvc) {
+                                setState(() {
+                                  _cardNumber = cardNumber;
+                                  _expiryMonth = expiryMonth;
+                                  _expiryYear = expiryYear;
+                                  _cvc = cvc;
+                                });
+                              },
                           onValidationChanged: (isValid) {
                             setState(() {
                               _isCardValid = isValid;
@@ -831,7 +841,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                 ]),
               ),
             ),
-            
+
             // Boutons de navigation
             SliverToBoxAdapter(
               child: Padding(
@@ -868,11 +878,14 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                     Expanded(
                       flex: 2,
                       child: ElevatedButton(
-                        onPressed: (isDisabled || _isProcessingPayment || !_isCardValid)
+                        onPressed:
+                            (isDisabled ||
+                                _isProcessingPayment ||
+                                !_isCardValid)
                             ? null
                             : () async {
-                          await _processPayment(vm, state, total);
-                        },
+                                await _processPayment(vm, state, total);
+                              },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF6366F1),
                           foregroundColor: Colors.white,
@@ -888,7 +901,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : Row(
@@ -897,7 +912,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
                                   const Icon(Icons.payment_rounded),
                                   const SizedBox(width: 8),
                                   Text(
-                                    _isProcessingPayment ? 'Traitement...' : 'Payer avec Stripe',
+                                    _isProcessingPayment
+                                        ? 'Traitement...'
+                                        : 'Payer avec Stripe',
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -955,13 +972,15 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
             ),
             filled: true,
             fillColor: Colors.grey[50],
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
           ),
         ),
       ],
     );
   }
-
 
   Future<void> _processPayment(dynamic vm, dynamic state, double total) async {
     if (!_isCardValid) {
@@ -983,11 +1002,11 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
       );
 
       debugPrint('Résultat du paiement: $paymentResult');
-      
+
       if (paymentResult['status'] == 'succeeded') {
         // Créer la commande
         final orderId = await vm.submit();
-        
+
         if (orderId != null && context.mounted) {
           _showSuccessSnackBar('Paiement réussi ! Commande créée avec succès.');
           context.goNamed('home');
@@ -996,7 +1015,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
         }
       } else {
         // Afficher l'erreur spécifique de la carte
-        final errorMessage = paymentResult['error'] ?? 'Le paiement a échoué. Veuillez réessayer.';
+        final errorMessage =
+            paymentResult['error'] ??
+            'Le paiement a échoué. Veuillez réessayer.';
         _showErrorSnackBar(errorMessage);
       }
     } catch (e) {
@@ -1016,9 +1037,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
         content: Text(message),
         backgroundColor: const Color(0xFF6366F1),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -1029,9 +1048,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage>
         content: Text(message),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

@@ -12,11 +12,7 @@ void main() {
   testWidgets('Simple smoke test', (WidgetTester tester) async {
     // Build a simple widget and trigger a frame.
     await tester.pumpWidget(
-      const MaterialApp(
-        home: Scaffold(
-          body: Text('Hello World'),
-        ),
-      ),
+      const MaterialApp(home: Scaffold(body: Text('Hello World'))),
     );
 
     // Verify that our text is displayed.

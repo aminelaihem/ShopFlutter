@@ -16,7 +16,8 @@ class RegisterPage extends ConsumerStatefulWidget {
   ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProviderStateMixin {
+class _RegisterPageState extends ConsumerState<RegisterPage>
+    with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _pwdCtrl = TextEditingController();
@@ -40,10 +41,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
     _animationController.forward();
   }
@@ -68,10 +72,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
       if (!_acceptTerms) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Veuillez accepter les conditions d\'utilisation'),
+            content: const Text(
+              'Veuillez accepter les conditions d\'utilisation',
+            ),
             backgroundColor: const Color(0xFFEF4444),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
         return;
@@ -81,13 +89,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
       vm.setPassword(_pwdCtrl.text);
       final user = await vm.register();
       if (user == null) {
-        final msg = ref.read(registerVmProvider).error ?? 'Échec de création du compte';
+        final msg =
+            ref.read(registerVmProvider).error ?? 'Échec de création du compte';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(msg),
             backgroundColor: const Color(0xFFEF4444),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       } else {
@@ -96,7 +107,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
             content: const Text('Compte créé avec succès !'),
             backgroundColor: const Color(0xFF10B981),
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         );
       }
@@ -116,7 +129,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
           content: const Text('Apple Sign-Up sera bientôt disponible'),
           backgroundColor: const Color(0xFF000000),
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -152,7 +167,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                   obscureText: _obscure,
                   suffixIcon: IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),
-                    icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    icon: Icon(
+                      _obscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
                   ),
                   validator: (v) => validatePassword(v ?? ''),
                   textInputAction: TextInputAction.next,
@@ -166,8 +185,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                   prefixIcon: Icons.lock_outline,
                   obscureText: _confirmObscure,
                   suffixIcon: IconButton(
-                    onPressed: () => setState(() => _confirmObscure = !_confirmObscure),
-                    icon: Icon(_confirmObscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    onPressed: () =>
+                        setState(() => _confirmObscure = !_confirmObscure),
+                    icon: Icon(
+                      _confirmObscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
                   ),
                   validator: (v) {
                     if (v == null || v.isEmpty) {
@@ -189,7 +213,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                   children: [
                     Checkbox(
                       value: _acceptTerms,
-                      onChanged: (value) => setState(() => _acceptTerms = value ?? false),
+                      onChanged: (value) =>
+                          setState(() => _acceptTerms = value ?? false),
                       activeColor: const Color(0xFF6366F1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
@@ -197,7 +222,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => setState(() => _acceptTerms = !_acceptTerms),
+                        onTap: () =>
+                            setState(() => _acceptTerms = !_acceptTerms),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 12),
                           child: RichText(
@@ -253,20 +279,22 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                     ),
                     child: state.isLoading
                         ? const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
                         : const Text(
-                      'Créer mon compte',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                            'Créer mon compte',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
 
@@ -316,10 +344,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                   children: [
                     Text(
                       'Déjà un compte ? ',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                     ),
                     TextButton(
                       onPressed: () => context.go(AppRoutes.login),
@@ -345,7 +370,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 20),
+                        const Icon(
+                          Icons.error_outline,
+                          color: Color(0xFFEF4444),
+                          size: 20,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -404,10 +433,7 @@ class _ModernTextField extends StatelessWidget {
       textInputAction: textInputAction,
       autofillHints: autofillHints,
       onFieldSubmitted: onFieldSubmitted,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(prefixIcon, color: const Color(0xFF6366F1)),
@@ -438,7 +464,10 @@ class _ModernTextField extends StatelessWidget {
           color: Color(0xFF64748B),
           fontWeight: FontWeight.w500,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
     );
   }

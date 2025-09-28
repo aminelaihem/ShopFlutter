@@ -37,11 +37,11 @@ class _CartPageState extends ConsumerState<CartPage>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
-    
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
 
     _animationController.forward();
   }
@@ -55,7 +55,9 @@ class _CartPageState extends ConsumerState<CartPage>
   @override
   Widget build(BuildContext context) {
     final itemsAsync = ref.watch(cartVmProvider);
-    final totalAsync = ref.watch(cartTotalProvider); // StreamProvider -> total en live
+    final totalAsync = ref.watch(
+      cartTotalProvider,
+    ); // StreamProvider -> total en live
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -77,7 +79,10 @@ class _CartPageState extends ConsumerState<CartPage>
             ],
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_rounded, color: Color(0xFF6366F1)),
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Color(0xFF6366F1),
+            ),
             onPressed: () {
               if (context.canPop()) {
                 context.pop();
@@ -99,9 +104,9 @@ class _CartPageState extends ConsumerState<CartPage>
             ),
             Text(
               'Vos articles sélectionnés',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
             ),
           ],
         ),
@@ -120,7 +125,10 @@ class _CartPageState extends ConsumerState<CartPage>
               ],
             ),
             child: IconButton(
-              icon: const Icon(Icons.delete_sweep_rounded, color: Color(0xFF6366F1)),
+              icon: const Icon(
+                Icons.delete_sweep_rounded,
+                color: Color(0xFF6366F1),
+              ),
               onPressed: () {
                 ref.read(cartVmProvider.notifier).clear();
               },
@@ -142,60 +150,63 @@ class _CartPageState extends ConsumerState<CartPage>
               SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final item = items[index];
-                      return FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(0, 0.3),
-                            end: Offset.zero,
-                          ).animate(CurvedAnimation(
-                            parent: _animationController,
-                            curve: Interval(
-                              index * 0.1,
-                              1.0,
-                              curve: Curves.easeOut,
-                            ),
-                          )),
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 2),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final item = items[index];
+                    return FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: SlideTransition(
+                        position:
+                            Tween<Offset>(
+                              begin: const Offset(0, 0.3),
+                              end: Offset.zero,
+                            ).animate(
+                              CurvedAnimation(
+                                parent: _animationController,
+                                curve: Interval(
+                                  index * 0.1,
+                                  1.0,
+                                  curve: Curves.easeOut,
                                 ),
-                              ],
+                              ),
                             ),
-                            child: CartItemTile(
-                              item: item,
-                              onQtyChanged: (q) => ref.read(cartVmProvider.notifier).setQty(item.productId, q),
-                              onRemove: () => ref.read(cartVmProvider.notifier).remove(item.productId),
-                            ),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: CartItemTile(
+                            item: item,
+                            onQtyChanged: (q) => ref
+                                .read(cartVmProvider.notifier)
+                                .setQty(item.productId, q),
+                            onRemove: () => ref
+                                .read(cartVmProvider.notifier)
+                                .remove(item.productId),
                           ),
                         ),
-                      );
-                    },
-                    childCount: items.length,
-                  ),
+                      ),
+                    );
+                  }, childCount: items.length),
                 ),
               ),
-              
+
               // Espacement pour la barre de checkout
-              const SliverToBoxAdapter(
-                child: SizedBox(height: 100),
-              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           );
         },
       ),
       bottomNavigationBar: itemsAsync.when(
-        data: (items) => items.isNotEmpty ? _buildCheckoutBar(totalAsync) : null,
+        data: (items) =>
+            items.isNotEmpty ? _buildCheckoutBar(totalAsync) : null,
         loading: () => null,
         error: (_, __) => null,
       ),
@@ -263,10 +274,7 @@ class _CartPageState extends ConsumerState<CartPage>
           const SizedBox(height: 8),
           Text(
             error,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -308,10 +316,7 @@ class _CartPageState extends ConsumerState<CartPage>
               const SizedBox(height: 8),
               Text(
                 'Ajoutez des articles pour commencer vos achats',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -320,17 +325,17 @@ class _CartPageState extends ConsumerState<CartPage>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6366F1),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: const Text(
                   'Continuer mes achats',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -364,10 +369,7 @@ class _CartPageState extends ConsumerState<CartPage>
                 children: [
                   const Text(
                     'Total',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   totalAsync.when(
                     data: (total) => Text(
@@ -380,25 +382,19 @@ class _CartPageState extends ConsumerState<CartPage>
                     ),
                     loading: () => const Text(
                       'Calcul...',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     error: (e, _) => Text(
                       'Erreur: $e',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.red,
-                      ),
+                      style: const TextStyle(fontSize: 16, color: Colors.red),
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             const SizedBox(width: 16),
-            
+
             // Bouton checkout
             Expanded(
               flex: 2,
