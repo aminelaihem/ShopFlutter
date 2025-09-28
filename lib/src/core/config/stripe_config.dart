@@ -1,12 +1,14 @@
 // lib/src/core/config/stripe_config.dart
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class StripeConfig {
-  // Clés de test Stripe - Remplacez par vos vraies clés
-  static const String publishableKey = 'pk_test_51SBEbIJDdq5uniaJNYZiitIhr4kE3XnkjwGWzzR72EmTRrOVnZokswGwTcJHLDmnCmpb5c5A4jfbKk6T0dtdjPgT00yMYoeahP';
-  static const String secretKey = 'sk_test_51SBEbIJDdq5uniaJc3SdZdHF53r776JIETwAbbtpE4Nb1P2XPCEZPQI1QryIhCbfKeg3zCCxRsG3aAiUeWlfA2sc00LuzMyR9I';
+  // Clés Stripe chargées depuis le fichier .env
+  static String get publishableKey => dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
+  static String get secretKey => dotenv.env['STRIPE_SECRET_KEY'] ?? '';
   
   // Configuration
-  static const String currency = 'eur';
-  static const String country = 'FR';
+  static String get currency => dotenv.env['STRIPE_CURRENCY'] ?? 'eur';
+  static String get country => dotenv.env['STRIPE_COUNTRY'] ?? 'FR';
   
   // Messages d'erreur
   static const String paymentFailedMessage = 'Le paiement a échoué. Veuillez réessayer.';

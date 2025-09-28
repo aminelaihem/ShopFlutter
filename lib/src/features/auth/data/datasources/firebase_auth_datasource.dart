@@ -6,10 +6,22 @@ class FirebaseAuthDataSource {
   FirebaseAuthDataSource(this._auth);
 
   Future<User> signIn(String email, String password) async {
-    final cred = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    final user = cred.user;
-    if (user == null) throw FirebaseAuthException(code: 'user-null', message: 'Utilisateur introuvable.');
-    return user;
+    print('🔐 Tentative de connexion avec: $email');
+    try {
+      final cred = await _auth.signInWithEmailAndPassword(email: email, password: password).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw FirebaseAuthException(code: 'timeout', message: 'Timeout de connexion');
+        },
+      );
+      print('✅ Connexion réussie: ${cred.user?.email}');
+      final user = cred.user;
+      if (user == null) throw FirebaseAuthException(code: 'user-null', message: 'Utilisateur introuvable.');
+      return user;
+    } catch (e) {
+      print('❌ Erreur de connexion: $e');
+      rethrow;
+    }
   }
 
   Future<User> register(String email, String password) async {

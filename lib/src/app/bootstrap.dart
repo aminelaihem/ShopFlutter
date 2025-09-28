@@ -9,10 +9,14 @@ import 'package:firebase_core/firebase_core.dart';
 import '../../firebase_options.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> bootstrap(Widget app) async {
   await runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized(); // plugins ok
+
+    // Charger les variables d'environnement
+    await dotenv.load(fileName: ".env");
 
     if (kIsWeb) usePathUrlStrategy(); // urls sans #
 

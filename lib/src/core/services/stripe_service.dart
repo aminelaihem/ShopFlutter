@@ -10,6 +10,12 @@ class StripeService {
   
   static Future<void> initialize() async {
     try {
+      // Vérifier que les clés sont chargées
+      if (StripeConfig.publishableKey.isEmpty) {
+        debugPrint('ATTENTION: Clé Stripe non trouvée dans .env');
+        return;
+      }
+      
       Stripe.publishableKey = StripeConfig.publishableKey;
       // Désactiver temporairement l'initialisation Stripe pour éviter l'erreur MissingPluginException
       // await Stripe.instance.applySettings();
