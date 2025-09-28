@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/router/routes.dart';
 import '../../../../app/utils/validators.dart';
 import '../viewmodels/register_vm.dart';
+import '../viewmodels/google_auth_vm.dart';
 import '../widgets/auth_layout.dart';
+import '../widgets/google_sign_in_button.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -100,16 +102,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
       }
     }
 
-    Future<void> signUpWithGoogle() async {
-      // TODO: Implémenter Google Sign-Up
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Google Sign-Up sera bientôt disponible'),
-          backgroundColor: const Color(0xFF3B82F6),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      );
+    Future<void> handleGoogleSignUpSuccess() async {
+      // Redirection après inscription Google réussie
+      if (mounted) {
+        context.go(AppRoutes.home);
+      }
     }
 
     Future<void> signUpWithApple() async {
@@ -296,12 +293,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with TickerProvider
 
                 const SizedBox(height: 24),
 
-                // Boutons d'authentification sociale
-                _SocialButton(
-                  onPressed: signUpWithGoogle,
-                  icon: Icons.g_mobiledata,
-                  label: 'Continuer avec Google',
-                  color: const Color(0xFF3B82F6),
+                // Bouton Google Sign-In
+                GoogleSignInButton(
+                  onSuccess: handleGoogleSignUpSuccess,
+                  isRegister: true,
                 ),
 
                 const SizedBox(height: 12),

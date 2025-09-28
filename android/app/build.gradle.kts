@@ -51,4 +51,5 @@ flutter {
 
 dependencies {
     implementation("com.stripe:stripe-android:20.37.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }

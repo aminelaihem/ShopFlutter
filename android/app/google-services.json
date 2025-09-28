@@ -12,7 +12,12 @@
           "package_name": "com.example.shopflutter"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "596152602563-fk581up8sc8j3v4gf21dm7o0mjp9pbtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB2U0pEjAfNDruRAOyJmaXJ6v3exDBL8Sw"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596152602563-fk581up8sc8j3v4gf21dm7o0mjp9pbtq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "596152602563-6ihn1h3tvp558sal18vrjskfu2fcecoh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopflutter"
+              }
+            }
+          ]
         }
       }
     }

@@ -30,6 +30,26 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<UserEntity> signInWithGoogle() async {
+    try {
+      final u = await _ds.signInWithGoogle();
+      return UserModel.fromFirebaseUser(u).toEntity();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.code, _mapCodeToMsg(e));
+    }
+  }
+
+  @override
+  Future<UserEntity> registerWithGoogle() async {
+    try {
+      final u = await _ds.registerWithGoogle();
+      return UserModel.fromFirebaseUser(u).toEntity();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.code, _mapCodeToMsg(e));
+    }
+  }
+
+  @override
   Future<void> signOut() => _ds.signOut();
 
   @override
@@ -48,8 +68,14 @@ class AuthRepositoryImpl implements AuthRepository {
         return 'Email déjà utilisé.';
       case 'weak-password':
         return 'Mot de passe trop faible.';
+      case 'sign-in-cancelled':
+        return 'Connexion Google annulée.';
+      case 'network-request-failed':
+        return 'Erreur de connexion réseau.';
+      case 'invalid-credential':
+        return 'Identifiants Google invalides.';
       default:
-        return e.message ?? 'Erreur d’authentification.';
+        return e.message ?? 'Erreur d\'authentification.';
     }
   }
 }
